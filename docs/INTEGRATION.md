@@ -51,3 +51,8 @@ installing dependencies"). Project instructions take precedence.
 - [ ] Core rules are importable (no broken links).
 - [ ] Active framework packs are referenced.
 - [ ] No rules are duplicated across layers.
+
+## Related guides
+
+- [`USAGE.md`](./USAGE.md) — per-agent copy-paste adoption commands.
+- [`PROJECT-DOCUMENTATION.md`](./PROJECT-DOCUMENTATION.md) — full kit documentation & guides.
