@@ -23,3 +23,16 @@
 - **Remaining TODO:** flesh out each framework pack with stack-specific rules; add worked
   examples under `examples/`.
 - **Suggested commit:** `feat: add V1.1 engineering workflow and project-memory modules`
+
+## 2026-08-03 — V1.2: Usage Guide
+
+- **Summary:** Added `docs/USAGE.md` with copy-paste terminal commands (PowerShell + bash) for
+  adopting the kit in a project as Kilo, Claude Code, Cursor, OpenAI Codex, Copilot, Gemini CLI,
+  Aider, and Windsurf; linked from `README.md` and `docs/INTEGRATION.md`.
+- **Reason:** Answer "how do I actually use this in another project" with concrete commands.
+- **Files changed:** new `docs/USAGE.md`; edited `README.md`, `docs/INTEGRATION.md`,
+  `docs/activity-log.md`.
+- **Breaking changes:** None.
+- **Testing:** Validator passes; new file references existing templates/paths.
+- **Remaining TODO:** add per-agent worked examples under `examples/`.
+- **Suggested commit:** `docs: add USAGE.md with per-agent adoption commands`

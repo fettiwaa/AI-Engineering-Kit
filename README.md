@@ -93,6 +93,9 @@ AI-Engineering-Kit/
 
 ## How to Consume
 
+> Copy-paste commands for every supported agent live in
+> [`docs/USAGE.md`](docs/USAGE.md).
+
 ### Option A — Reference this kit
 
 In your project's `AGENTS.md`, prepend a pointer to the canonical source:

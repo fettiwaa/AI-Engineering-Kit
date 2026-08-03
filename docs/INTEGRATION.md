@@ -2,6 +2,9 @@
 
 How to adopt the AI Engineering Kit in a project.
 
+> For ready-to-copy terminal commands per agent, see
+> [`USAGE.md`](./USAGE.md).
+
 ## 1. Choose an adapter
 
 Identify which AI coding agent your team uses and copy the corresponding file from
