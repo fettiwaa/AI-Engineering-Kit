@@ -37,3 +37,9 @@
 
 If a secret or vulnerability is suspected, report it through the project's
 [Responsible Disclosure](../CONTRIBUTING.md) process rather than exposing details in chat.
+
+## 6. AI Restrictions
+
+AI agents must additionally follow `AI_RESTRICTIONS.md`, which enumerates what may never be
+revealed (passwords, API keys, tokens, connection strings, private/SSH keys, service accounts,
+customer personal data, etc.).

@@ -138,15 +138,50 @@ unless explicitly instructed.
 
 ---
 
-## 16. Rule Categories
+## 16. Planning Workflow
+
+@import [PLANNING.md](PLANNING.md)
+
+## 17. Refactoring
+
+@import [REFACTORING.md](REFACTORING.md)
+
+## 18. Code Review
+
+@import [CODE_REVIEW.md](CODE_REVIEW.md)
+
+## 19. Commit Workflow
+
+@import [COMMIT_WORKFLOW.md](COMMIT_WORKFLOW.md)
+
+## 20. Engineering Principles
+
+@import [ENGINEERING_PRINCIPLES.md](ENGINEERING_PRINCIPLES.md)
+
+## 21. AI Restrictions
+
+@import [AI_RESTRICTIONS.md](AI_RESTRICTIONS.md)
+
+## 22. Project Memory
+
+Significant work is recorded in `../docs/`:
+
+- `activity-log.md` — significant engineering work.
+- `decision-log.md` — architecture decisions.
+- `roadmap.md` — planned features.
+- `technical-debt.md` — future improvements.
+- `session-log/` — per-session notes.
+
+## 23. Rule Categories
 
 The following cross-cutting rule categories are enforced across all modules above. They are
 defined in detail in the imported modules but summarized here for discoverability.
 
 | Category | Governed by |
 |----------|-------------|
-| Security | `SECURITY.md` |
-| Git | `GIT.md` |
+| Security | `SECURITY.md`, `AI_RESTRICTIONS.md` |
+| AI Restrictions | `AI_RESTRICTIONS.md` |
+| Git | `GIT.md`, `COMMIT_WORKFLOW.md` |
 | Database | `DATABASE.md` |
 | Architecture | `ARCHITECTURE.md` |
 | API Design | `API.md` |
@@ -160,17 +195,20 @@ defined in detail in the imported modules but summarized here for discoverabilit
 | Debugging | `AI_WORKFLOW.md` §Debugging |
 | Prompt Engineering | `PROMPTING.md` §Prompt Engineering |
 | Context Engineering | `PROMPTING.md` §Context Engineering |
-| Code Reviews | `AI_WORKFLOW.md` §Code Reviews |
-| Refactoring | `CODING_STANDARDS.md` §Refactoring |
+| Code Reviews | `CODE_REVIEW.md` |
+| Refactoring | `REFACTORING.md` |
 | Deployment | `AI_WORKFLOW.md` §Deployment |
 | File Organization | `CODING_STANDARDS.md` §File Organization |
 | Naming Conventions | `CODING_STANDARDS.md` §Naming |
-| Planning | `AI_WORKFLOW.md` §Planning |
+| Planning | `PLANNING.md` |
+| Commit Workflow | `COMMIT_WORKFLOW.md` |
+| Engineering Principles | `ENGINEERING_PRINCIPLES.md` |
 | Production Readiness | `AI_WORKFLOW.md` §Production Readiness |
+| Project Memory | `../docs/` (activity/decision/roadmap/debt/session logs) |
 
 ---
 
-## 17. Framework Packs & Adapters
+## 24. Framework Packs & Adapters
 
 Framework packs (`../framework-packs/`) and vendor adapters (`../adapters/`) are **additive**.
 They extend the rules in this file and must cite the canonical rule they reference or override.

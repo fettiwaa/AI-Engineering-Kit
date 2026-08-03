@@ -32,3 +32,11 @@
 ## 6. Localization
 
 When localization is introduced, provide source strings and a translation workflow.
+
+## 7. Project Memory
+
+Keep the long-term memory files in `../docs/` up to date:
+
+- `activity-log.md`, `decision-log.md`, `roadmap.md`, `technical-debt.md`, `session-log/`.
+
+These capture context so future agents need not rediscover it.

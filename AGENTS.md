@@ -14,5 +14,5 @@ This repository *is* the AI Engineering Kit. The canonical rule set lives in
 
 ## Available framework packs
 
-Reference as needed from `framework-packs/`; do not duplicate them here.
-`@import framework-packs/<name>.md`
+Reference as needed from `framework-packs/`; do not duplicate them here. A specific
+pack can be imported as `@import [framework-packs/<name>.md](framework-packs/<name>.md)`.

@@ -16,7 +16,8 @@ unless explicitly instructed by the user.
 ## 2. Commits
 
 - Write commits only when explicitly asked.
-- Use clear, conventional commit messages when authoring them.
+- Follow the structured commit workflow in `COMMIT_WORKFLOW.md` (conventional commits,
+  atomic changes, suggested commit boundaries).
 - Stage only intended files; never stage secrets or build outputs.
 
 ## 3. Branch Hygiene
@@ -35,4 +36,5 @@ unless explicitly instructed by the user.
 - Review `git status` and `git diff` before any commit decision.
 - Ensure `.gitignore` excludes build outputs, dependencies, and environment files.
 
-See also: `../.github/` for any CI configuration and `core/SECURITY.md` §Secret Scanning.
+See also: `../.github/` for any CI configuration, `core/SECURITY.md` §Secret Scanning,
+and `core/COMMIT_WORKFLOW.md` for the commit-authoring workflow.

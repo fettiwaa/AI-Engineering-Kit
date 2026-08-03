@@ -30,6 +30,11 @@
 
 ## 5. Refactoring
 
+See `REFACTORING.md` for the full workflow. Summary here:
+
 - Refactor in small, self-contained steps.
 - Never refactor and add features in the same change.
 - Preserve behavior; rely on tests as a safety net.
+- Read related files first; understand the architecture before refactoring.
+- Never perform drive-by refactors; only refactor what is required.
+- If a file exceeds reasonable complexity, recommend splitting it instead of rewriting it.

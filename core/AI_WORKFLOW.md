@@ -2,9 +2,12 @@
 
 ## 1. Planning
 
+Planning before major work is governed by `PLANNING.md`. Key practices:
+
 - Break work into small, incremental steps.
 - Write a plan before implementing; record it in an issue or ADR.
 - Seek review before large refactors.
+- Stop and seek approval for changes affecting architecture, APIs, databases, auth, or deployment.
 
 ## 2. Feature Development
 
@@ -22,7 +25,7 @@
 
 - Review for correctness, clarity, and maintainability.
 - Prefer small changes; batch unrelated changes.
-- Use a structured checklist (see `checklists/`).
+- Use a structured checklist — see `CODE_REVIEW.md` and `checklists/code-review.md`.
 
 ## 5. Debugging
 
