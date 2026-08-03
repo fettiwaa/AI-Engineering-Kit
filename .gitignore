@@ -1,0 +1,21 @@
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# Dependencies
+node_modules/
+vendor/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Tooling
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
