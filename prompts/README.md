@@ -43,6 +43,7 @@ brief; neither imposes a style. This prompt keeps its original section layout as
 |--------|-------|----------|
 | [session-handoff.md](session-handoff.md) | `/session-handoff` (manual) | Context is running low or work moves to a new session |
 | [skill-builder.md](skill-builder.md) | `/build-skill` (manual) | A workflow repeats often enough to become a skill |
+| [remove-ai-coauthor.md](remove-ai-coauthor.md) | `/remove-ai-coauthor` (manual) | GitHub's Contributors list shows an AI assistant from `Co-Authored-By` trailers |
 | [agent-practices.md](agent-practices.md) | | Snippets for agents that do not load the kit |
 
 ## Learning and Career
