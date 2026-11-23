@@ -45,6 +45,7 @@ brief; neither imposes a style. This prompt keeps its original section layout as
 | [token-efficiency-auditor.md](token-efficiency-auditor.md) | `/token-efficiency-auditor` | Sessions or instruction files are wasting context |
 | [session-handoff.md](session-handoff.md) | `/session-handoff` (manual) | Ending a long session, finishing a phase, or before `/clear` |
 | [project-resume.md](project-resume.md) | `/project-resume` | Returning to a project after a break or a `/clear` |
+| [end-of-day.md](end-of-day.md) | `/end-of-day` | Wrapping up for the day ("end of the day"); updates `PROJECT_STATUS.md` |
 | [skill-builder.md](skill-builder.md) | `/build-skill` (manual) | A workflow repeats often enough to become a skill |
 | [remove-ai-coauthor.md](remove-ai-coauthor.md) | `/remove-ai-coauthor` (manual) | GitHub's Contributors list shows an AI assistant from `Co-Authored-By` trailers |
 | [agent-practices.md](agent-practices.md) | | Snippets for agents that do not load the kit |

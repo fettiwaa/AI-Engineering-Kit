@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   session), `/token-efficiency-auditor` (find avoidable context waste), and `/project-resume`
   (onboard a fresh session from project notes and Git state). They state plainly that they
   cannot keep a prompt cache alive or read usage internals.
+- `/end-of-day` skill: wraps up a session by verifying the day's work, updating
+  `PROJECT_STATUS.md` (asking before creating it), and recommending compact, clear, or a fresh
+  session. Triggers on `/end-of-day` or phrases like "end of the day". Never commits, pushes,
+  resets, or deletes.
 
 ### Changed
 
