@@ -82,7 +82,7 @@ AI-Engineering-Kit/
 │       DEPENDENCIES.md, AI_WORKFLOW.md, PROMPTING.md
 ├── framework-packs/         # 20 stack packs
 ├── adapters/                # 8 tool adapters
-├── prompts/                 # 20 task prompts; 19 install as Claude Code skills
+├── prompts/                 # 21 task prompts; 20 install as Claude Code skills
 ├── templates/               # 10 file templates + 5 log-entry templates
 ├── checklists/              # 9 gate checklists
 ├── examples/                # Worked adoption examples

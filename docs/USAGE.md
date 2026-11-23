@@ -97,6 +97,9 @@ describe the task: non-manual skills load when the request matches. Re-run the s
 updating the kit; it only overwrites skills it installed. To add your own skill to the kit,
 see `prompts/skill-builder.md`.
 
+For frontend work, also install Anthropic's official `frontend-design` plugin; the commands
+are in `adapters/claude-code.md` (section "Recommended Plugin").
+
 ## 6. Global Profile (Optional)
 
 Personal preferences that apply to every project go in your agent's user-level file, e.g.

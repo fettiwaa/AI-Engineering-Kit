@@ -27,6 +27,16 @@ Select only the prompt a task needs; do not paste every prompt into every conver
 | [performance-optimization.md](performance-optimization.md) | `/optimize-performance` | Something is slow or resource-heavy |
 | [documentation.md](documentation.md) | `/write-docs` | Documenting a project for handoff or portfolio |
 
+## Frontend
+
+| Prompt | Skill | Use when |
+|--------|-------|----------|
+| [frontend-quality-design.md](frontend-quality-design.md) | `/frontend-quality-design` | UI implementation, design systems, responsive layouts, accessibility, visual QA |
+
+Pairs with Anthropic's official `frontend-design` plugin (broad design guidance); see
+`adapters/claude-code.md`. Both follow the project's existing visual identity and the user's
+brief; neither imposes a style. This prompt keeps its original section layout as supplied.
+
 ## Agent Productivity
 
 | Prompt | Skill | Use when |

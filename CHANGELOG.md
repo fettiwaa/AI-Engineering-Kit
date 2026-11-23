@@ -7,8 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-11-23
+
 ### Added
 
+- `/frontend-quality-design` skill (`prompts/frontend-quality-design.md`), imported from the
+  General Frontend Engineering & Design Kit: a framework- and style-neutral workflow for UI
+  implementation, design systems, responsiveness, accessibility, and visual QA.
+- Anthropic's official `frontend-design` plugin documented as a recommended add-on in
+  `adapters/claude-code.md`, `docs/USAGE.md`, and `docs/references.md`.
 - Four more skills: `/implement-feature`, `/review-architecture`, `/plan-migration`,
   `/optimize-performance`. Their prompts were rewritten in the Role / Input / Process / Rules /
   Output layout.

@@ -21,6 +21,8 @@ the specific model you use; advice measured on one model does not always transfe
 - Overview: <https://docs.anthropic.com/en/docs/claude-code/overview>
 - Memory and `CLAUDE.md` imports: <https://docs.anthropic.com/en/docs/claude-code/memory>
 - Skills (`SKILL.md` format and frontmatter): <https://code.claude.com/docs/en/skills>
+- Official plugin marketplace (source of the recommended `frontend-design` plugin):
+  <https://github.com/anthropics/claude-plugins-official>
 
 ## Instruction Files per Tool
 

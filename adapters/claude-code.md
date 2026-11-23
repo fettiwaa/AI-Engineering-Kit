@@ -39,7 +39,24 @@ frontmatter; manual-only ones add `disable-model-invocation: true`):
 
 Invoke with `/<name>`; auto skills also load when a request matches their description.
 
-## 4. Notes
+## 4. Recommended Plugin: Frontend Design
+
+For frontend work, pair the kit's `/frontend-quality-design` skill (engineering and QA
+workflow) with Anthropic's official `frontend-design` plugin (design guidance). It is
+Anthropic's plugin, not part of the kit, so install it separately, from the official
+marketplace only, and not a similarly named third-party plugin:
+
+```powershell
+claude plugin marketplace add anthropics/claude-plugins-official   # once, if missing
+claude plugin install frontend-design@claude-plugins-official --scope user
+```
+
+Inside a session the equivalent is `/plugin install frontend-design@claude-plugins-official`.
+Scopes: `user` (all your projects), `project` (committed, shared with collaborators), `local`
+(this repo, only you). It contains one skill and no hooks or MCP servers; it loads in new
+sessions. Check with `claude plugin list`.
+
+## 5. Notes
 
 - `@path` must stand on its own line or be preceded by whitespace; it is not resolved inside
   code spans or code blocks.

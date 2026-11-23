@@ -34,11 +34,14 @@ guide: [`docs/USAGE.md`](docs/USAGE.md).
 
 ## Claude Code Skills
 
-Nineteen prompts double as Claude Code skills, generated from [`prompts/`](prompts/):
+Twenty prompts double as Claude Code skills, generated from [`prompts/`](prompts/):
 
 | Engineering (auto + `/command`) | Manual only (`/command`) |
 |---------------------------------|--------------------------|
-| `/investigate-codebase`, `/plan-change`, `/implement-feature`, `/debug-issue`, `/review-code`, `/refactor-code`, `/write-tests`, `/security-audit`, `/optimize-performance`, `/architecture-decision`, `/review-architecture`, `/plan-migration`, `/write-docs` | `/session-handoff`, `/build-skill`, `/tutor`, `/socratic-coach`, `/portfolio-review`, `/mock-interview` |
+| `/investigate-codebase`, `/plan-change`, `/implement-feature`, `/debug-issue`, `/review-code`, `/refactor-code`, `/write-tests`, `/security-audit`, `/optimize-performance`, `/architecture-decision`, `/review-architecture`, `/plan-migration`, `/write-docs`, `/frontend-quality-design` | `/session-handoff`, `/build-skill`, `/tutor`, `/socratic-coach`, `/portfolio-review`, `/mock-interview` |
+
+For frontend work, pair `/frontend-quality-design` with Anthropic's official `frontend-design`
+plugin (install commands in [`adapters/claude-code.md`](adapters/claude-code.md)).
 
 ```powershell
 & "<path-to-kit>/scripts/install-skills.ps1" -Skills all -Scope user   # every project
@@ -87,7 +90,7 @@ AI-Engineering-Kit/
 │   └── *.md              #   21 modules: SECURITY, GIT, DATABASE, PLANNING, CODE_REVIEW, ...
 ├── framework-packs/      # 20 stack packs: typescript, react, nextjs, prisma, fastapi, ...
 ├── adapters/             # How each of the 8 supported tools loads the rules
-├── prompts/              # 20 task prompts (19 also install as Claude Code skills)
+├── prompts/              # 21 task prompts (20 also install as Claude Code skills)
 ├── templates/            # 15 templates (ADR, RFC, PR, project instructions, log entries, ...)
 ├── checklists/           # 9 gates (before commit/PR/merge/release, security, a11y, ...)
 ├── examples/             # Worked adoption examples
