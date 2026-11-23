@@ -34,11 +34,14 @@ guide: [`docs/USAGE.md`](docs/USAGE.md).
 
 ## Claude Code Skills
 
-Twenty prompts double as Claude Code skills, generated from [`prompts/`](prompts/):
+Twenty-four prompts double as Claude Code skills, generated from [`prompts/`](prompts/):
 
-| Engineering (auto + `/command`) | Manual only (`/command`) |
-|---------------------------------|--------------------------|
-| `/investigate-codebase`, `/plan-change`, `/implement-feature`, `/debug-issue`, `/review-code`, `/refactor-code`, `/write-tests`, `/security-audit`, `/optimize-performance`, `/architecture-decision`, `/review-architecture`, `/plan-migration`, `/write-docs`, `/frontend-quality-design` | `/session-handoff`, `/build-skill`, `/tutor`, `/socratic-coach`, `/portfolio-review`, `/mock-interview` |
+| Auto + `/command` | Manual only (`/command`) |
+|-------------------|--------------------------|
+| **Engineering:** `/investigate-codebase`, `/plan-change`, `/implement-feature`, `/debug-issue`, `/review-code`, `/refactor-code`, `/write-tests`, `/security-audit`, `/optimize-performance`, `/architecture-decision`, `/review-architecture`, `/plan-migration`, `/write-docs`, `/frontend-quality-design`<br>**Context and sessions:** `/context-guardian`, `/token-efficiency-auditor`, `/project-resume` | `/session-handoff`, `/build-skill`, `/remove-ai-coauthor`, `/tutor`, `/socratic-coach`, `/portfolio-review`, `/mock-interview` |
+
+Context skills help you decide when to compact or clear, hand off, and resume; they cannot keep
+a prompt cache alive, read billing internals, or guarantee lower usage.
 
 For frontend work, pair `/frontend-quality-design` with Anthropic's official `frontend-design`
 plugin (install commands in [`adapters/claude-code.md`](adapters/claude-code.md)).

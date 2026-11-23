@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Context and session skills: `/context-guardian` (continue, `/compact`, `/clear`, or fresh
+  session), `/token-efficiency-auditor` (find avoidable context waste), and `/project-resume`
+  (onboard a fresh session from project notes and Git state). They state plainly that they
+  cannot keep a prompt cache alive or read usage internals.
+
+### Changed
+
+- `/session-handoff` now verifies changes against `git status` and diffs before recording
+  them, updates the project's existing progress notes (asking before creating one), and uses
+  a fixed heading template. It points to `/project-resume` for the next session.
+- README skill table now lists `/remove-ai-coauthor`, which was missing.
+
 - `templates/claude-settings.json`: Claude Code permission rules that enforce the
   Non-Negotiables. `deny` blocks reading `.env` files; `ask` makes `git push`,
   `reset --hard`, `clean`, `rebase`, recursive deletes, and curl/PowerShell uploads always

@@ -41,7 +41,10 @@ brief; neither imposes a style. This prompt keeps its original section layout as
 
 | Prompt | Skill | Use when |
 |--------|-------|----------|
-| [session-handoff.md](session-handoff.md) | `/session-handoff` (manual) | Context is running low or work moves to a new session |
+| [context-guardian.md](context-guardian.md) | `/context-guardian` | Deciding whether to continue, `/compact`, `/clear`, or start a fresh session |
+| [token-efficiency-auditor.md](token-efficiency-auditor.md) | `/token-efficiency-auditor` | Sessions or instruction files are wasting context |
+| [session-handoff.md](session-handoff.md) | `/session-handoff` (manual) | Ending a long session, finishing a phase, or before `/clear` |
+| [project-resume.md](project-resume.md) | `/project-resume` | Returning to a project after a break or a `/clear` |
 | [skill-builder.md](skill-builder.md) | `/build-skill` (manual) | A workflow repeats often enough to become a skill |
 | [remove-ai-coauthor.md](remove-ai-coauthor.md) | `/remove-ai-coauthor` (manual) | GitHub's Contributors list shows an AI assistant from `Co-Authored-By` trailers |
 | [agent-practices.md](agent-practices.md) | | Snippets for agents that do not load the kit |
