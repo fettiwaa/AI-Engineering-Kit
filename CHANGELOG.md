@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `templates/claude-settings.json`: Claude Code permission rules that enforce the
+  Non-Negotiables. `deny` blocks reading `.env` files; `ask` makes `git push`,
+  `reset --hard`, `clean`, `rebase`, recursive deletes, and curl/PowerShell uploads always
+  prompt. Documented in `adapters/claude-code.md` §5, with guidance on unknown repositories
+  and pasted instructions in §6.
+
 ## [1.5.0] - 2026-11-23
 
 ### Added

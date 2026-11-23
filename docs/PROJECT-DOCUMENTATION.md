@@ -83,7 +83,7 @@ AI-Engineering-Kit/
 ├── framework-packs/         # 20 stack packs
 ├── adapters/                # 8 tool adapters
 ├── prompts/                 # 21 task prompts; 20 install as Claude Code skills
-├── templates/               # 10 file templates + 5 log-entry templates
+├── templates/               # 11 file templates + 5 log-entry templates
 ├── checklists/              # 9 gate checklists
 ├── examples/                # Worked adoption examples
 ├── scripts/                 # adopt-kit.ps1, install-skills.ps1, validate-kit.ps1

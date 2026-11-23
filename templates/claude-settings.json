@@ -1,0 +1,48 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.local)",
+      "Read(**/.env.development)",
+      "Read(**/.env.development.local)",
+      "Read(**/.env.production)",
+      "Read(**/.env.production.local)",
+      "Read(**/.env.test)",
+      "Read(**/.env.test.local)",
+      "Read(**/.env.staging)",
+      "Bash(cat .env*)",
+      "Bash(type .env*)",
+      "PowerShell(Get-Content .env*)",
+      "PowerShell(cat .env*)",
+      "PowerShell(type .env*)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(git reset --hard*)",
+      "Bash(git clean -f*)",
+      "Bash(git rebase*)",
+      "Bash(rm -rf*)",
+      "Bash(rm -fr*)",
+      "Bash(curl * -d *)",
+      "Bash(curl * --data*)",
+      "Bash(curl * -F *)",
+      "Bash(curl * --form*)",
+      "Bash(curl * -T *)",
+      "Bash(curl * --upload-file*)",
+      "Bash(curl * -X POST*)",
+      "Bash(curl * -X PUT*)",
+      "PowerShell(git push*)",
+      "PowerShell(git reset --hard*)",
+      "PowerShell(git clean -f*)",
+      "PowerShell(git rebase*)",
+      "PowerShell(Remove-Item * -Recurse*)",
+      "PowerShell(rm -r*)",
+      "PowerShell(Invoke-WebRequest * -Method Post*)",
+      "PowerShell(Invoke-WebRequest * -Method Put*)",
+      "PowerShell(Invoke-WebRequest * -InFile*)",
+      "PowerShell(Invoke-RestMethod * -Method Post*)",
+      "PowerShell(Invoke-RestMethod * -Method Put*)",
+      "PowerShell(Invoke-RestMethod * -InFile*)"
+    ]
+  }
+}

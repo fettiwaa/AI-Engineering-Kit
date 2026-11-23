@@ -56,7 +56,28 @@ Scopes: `user` (all your projects), `project` (committed, shared with collaborat
 (this repo, only you). It contains one skill and no hooks or MCP servers; it loads in new
 sessions. Check with `claude plugin list`.
 
-## 5. Notes
+## 5. Enforce the Non-Negotiables with Permission Rules
+
+Instructions can be ignored; permission rules cannot. Merge the `permissions` block from
+[`templates/claude-settings.json`](../templates/claude-settings.json) into
+`~/.claude/settings.json` (all projects) or `.claude/settings.json` (one project, committed):
+
+- `deny`: reading `.env` files (`.env.example` stays readable). Denied calls never run, in any
+  permission mode, including auto mode.
+- `ask`: `git push`, `git reset --hard`, `git clean`, `git rebase`, recursive deletes, and
+  `curl` / `Invoke-WebRequest` / `Invoke-RestMethod` uploads. These always prompt, so they run
+  only when you approve them, even in auto mode.
+
+Merge into existing arrays rather than replacing the file. Prefix rules match the start of a
+command, so treat them as a safety net, not a complete sandbox.
+
+## 6. Unknown Repositories and Pasted Instructions
+
+Before running a script from a cloned repo, a web page, or pasted text, read it first. Never
+run it on the strength of the instructions alone (`core/SECURITY.md` §6). Prefer
+`claude plugin` installs from the official marketplace over third-party ones.
+
+## 7. Notes
 
 - `@path` must stand on its own line or be preceded by whitespace; it is not resolved inside
   code spans or code blocks.

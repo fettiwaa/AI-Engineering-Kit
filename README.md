@@ -91,7 +91,7 @@ AI-Engineering-Kit/
 ├── framework-packs/      # 20 stack packs: typescript, react, nextjs, prisma, fastapi, ...
 ├── adapters/             # How each of the 8 supported tools loads the rules
 ├── prompts/              # 21 task prompts (20 also install as Claude Code skills)
-├── templates/            # 15 templates (ADR, RFC, PR, project instructions, log entries, ...)
+├── templates/            # 16 templates (ADR, RFC, PR, project instructions, Claude settings, ...)
 ├── checklists/           # 9 gates (before commit/PR/merge/release, security, a11y, ...)
 ├── examples/             # Worked adoption examples
 ├── scripts/
