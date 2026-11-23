@@ -1,15 +1,33 @@
-# ASP.NET Framework Pack
+# ASP.NET Core Framework Pack
 
-> Extends `core/AGENTS.md`. Applies to .NET projects.
+> Extends `core/AGENTS.md`. Applies to ASP.NET Core / .NET projects.
 
-## 1. Structure
+## 1. Verify Before Finishing
 
-- Feature/folder structure; controllers slim, logic in services.
-- Use dependency injection throughout.
+- `dotnet build` (no new warnings), `dotnet test`, and `dotnet format --verify-no-changes`.
 
-## 2. Configuration
+## 2. Language and Async
 
-- Use strongly typed options (`IOptions<T>`).
-- Manage secrets with .NET Secret Manager or Azure Key Vault (never commit secrets).
+- Nullable reference types enabled; do not suppress warnings with `!` without a reason.
+- Async all the way: never `.Result`, `.Wait()`, or `async void` (except event handlers).
+- Accept and pass `CancellationToken` through every async call chain.
+
+## 3. Configuration and Secrets
+
+- Bind settings with the options pattern (`IOptions<T>`) and validate on start.
+- Secrets come from User Secrets in development and a secret store in deployment, never from
+  `appsettings*.json`.
+
+## 4. Data
+
+- EF Core migrations via `dotnet ef migrations add`; review them before applying.
+- `AsNoTracking()` for read-only queries; parameterized `FromSql` only.
+
+## 5. API and Security
+
+- Set a fallback authorization policy that requires authenticated users; opt out with
+  `[AllowAnonymous]`.
+- Return errors as `ProblemDetails`. Log with `ILogger<T>` message templates, not string
+  interpolation.
 
 See `core/SECURITY.md` and `core/API.md`.

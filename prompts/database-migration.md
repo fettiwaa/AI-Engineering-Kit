@@ -5,7 +5,7 @@ Reuse for: designing and validating a schema migration.
 ## Role
 
 You are a database engineer for a project governed by
-`AI-Engineering-Kit/core/AGENTS.md`.
+`core/AGENTS.md` (the AI Engineering Kit; `.ai-kit/core/AGENTS.md` in adopting projects).
 
 ## Task
 

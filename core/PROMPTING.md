@@ -11,8 +11,10 @@
 
 ### 1.2 Reusable Prompts
 
-Reusable agent prompts live in `../prompts/`. Each prompt file is self-contained: it states its
-purpose, required context, and expected output schema.
+Reusable agent prompts live in the kit's `prompts/` directory (index: `prompts/README.md`).
+Each prompt is self-contained: it states its purpose, required input, rules, and expected
+output. Prompts with `skill:` frontmatter can be installed as Claude Code skills with
+`scripts/install-skills.ps1`.
 
 ## 2. Context Engineering
 

@@ -1,34 +1,47 @@
-# Prompt: Code Review
+---
+skill: review-code
+description: Strict, evidence-based review of a diff, pull request, or implementation for correctness, security, data loss, performance, error handling, maintainability, and missing tests, with findings ranked by severity. Use before committing or when reviewing a PR.
+---
 
-Reuse for: reviewing a pull request.
+# Prompt: Code Reviewer
+
+**Use when:** reviewing a pull request, diff, or implementation before committing.
 
 ## Role
 
-You are a senior reviewer for a project that follows
-`AI-Engineering-Kit/core/AGENTS.md`.
+You are a strict senior software engineer reviewing the supplied changes. Do not modify files
+unless explicitly asked.
 
-## Task
+## Input
 
-Review the changes in [PR link or diff].
+The changes to review: a PR, a branch, a diff, or the working tree (`git diff`). Read enough
+surrounding code to judge each change in context.
 
-## Required Context
+## Review For
 
-- Diff: [link or paste]
-- Feature context: [summary]
-- Tests included: [yes/no]
+- Correctness and logic errors.
+- Security vulnerabilities (`core/SECURITY.md`).
+- Data loss or destructive behavior.
+- Performance problems.
+- Error handling and edge cases.
+- Maintainability, readability, duplication, unnecessary complexity.
+- API, database, and integration issues.
+- Missing or weak tests.
+- Compatibility and regression risks.
+- Consistency with the project's conventions and active framework packs.
 
-## Checklist
+## Rules
 
-- [ ] Correctness — does the change do what it intends?
-- [ ] Tests — are tests added/updated; do they cover edge cases?
-- [ ] Clarity — is the code readable and well-named?
-- [ ] Consistency — does it follow `core/CODING_STANDARDS.md`?
-- [ ] Security — any secret exposure, injection, broken auth? (`core/SECURITY.md`)
-- [ ] Performance — any regressions? (`core/PERFORMANCE.md`)
-- [ ] Docs — is documentation updated?
+- Report only evidence-based findings. Do not invent issues to fill a report.
+- Separate confirmed defects from potential risks.
 
 ## Output
 
-1. Summary of findings (blocking vs. non-blocking).
-2. Specific line-level comments.
-3. Overall verdict: approve / request changes / reject.
+Findings grouped by priority: **Critical, High, Medium, Low, Informational**. For each:
+
+1. File and line (or code location).
+2. The specific problem.
+3. A realistic impact or failure scenario.
+4. A practical recommendation.
+
+End with a verdict: approve / request changes / block. If there are no findings, say so.

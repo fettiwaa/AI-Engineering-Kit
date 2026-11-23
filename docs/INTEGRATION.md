@@ -1,58 +1,38 @@
 # Integration Guide
 
-How to adopt the AI Engineering Kit in a project.
+A checklist for wiring the AI Engineering Kit into a project. Commands and options are in
+[`USAGE.md`](./USAGE.md).
 
-> For ready-to-copy terminal commands per agent, see
-> [`USAGE.md`](./USAGE.md).
+## 1. Choose Packs
 
-## 1. Choose an adapter
+Pick the framework packs matching the stack (see `framework-packs/`). Packs stack: a Next.js
+app typically uses `typescript,react,nextjs,tailwind` plus its ORM pack.
 
-Identify which AI coding agent your team uses and copy the corresponding file from
-`adapters/` into the expected location:
+## 2. Run the Adopt Script
 
-| Agent | File location |
-|-------|---------------|
-| Kilo Code | `AGENTS.md` (project root) |
-| Claude Code | `CLAUDE.md` (project root) |
-| Cursor | `.cursorrules` (project root) |
-| OpenAI Codex | `codex.md` (project root) |
-| GitHub Copilot | `.github/Copilot-instructions.md` |
-| Gemini CLI | `.gemini/GEMINI.md` |
-| Aider | `.aider.md` (project root) |
-| Windsurf | `.windsurfrc` rules entry |
-
-## 2. Reference the canonical core
-
-Each adapter file should begin by pointing back to the canonical core. Example for Kilo:
-
-```markdown
-# AGENTS.md
-
-@import ../AI-Engineering-Kit/core/AGENTS.md
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project <project> -Agents <your-agents> -Packs <packs> -WithMemory
 ```
 
-## 3. Add framework packs
+## 3. Add Project Rules
 
-Add the framework packs relevant to your stack. Packs are additive and self-contained.
+Below the managed block in `AGENTS.md`, record the project's build, test, and lint commands
+and any conventions the packs do not cover. Agents rely on these to verify their work.
 
-## 4. Set up a global profile (optional)
+## 4. Commit
 
-For personal preferences across all projects, place an `AGENTS.md` in your global Kilo profile:
-
-- Windows: `%USERPROFILE%\.config\kilo\AGENTS.md`
-- Unix: `~/.config/kilo/AGENTS.md`
-
-The global profile should hold preferences only (e.g. "never read .env", "ask before
-installing dependencies"). Project instructions take precedence.
+Commit `AGENTS.md`, `.ai-kit/`, the shims, and `docs/` memory files on a feature branch.
 
 ## 5. Validate
 
-- [ ] Adapter file exists in the expected location.
-- [ ] Core rules are importable (no broken links).
-- [ ] Active framework packs are referenced.
-- [ ] No rules are duplicated across layers.
+- [ ] `AGENTS.md` contains exactly one `ai-kit:start` / `ai-kit:end` block.
+- [ ] Each agent the team uses has its entry file (see the "What gets written" table in `USAGE.md`).
+- [ ] The project section lists real build/test/lint commands.
+- [ ] The agent can recite the Non-Negotiables when asked.
+- [ ] No rules are duplicated between the managed block and the project section.
 
-## Related guides
+## Related Guides
 
-- [`USAGE.md`](./USAGE.md) — per-agent copy-paste adoption commands.
-- [`PROJECT-DOCUMENTATION.md`](./PROJECT-DOCUMENTATION.md) — full kit documentation & guides.
+- [`USAGE.md`](./USAGE.md): parameters, updating, global profiles.
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md): why the kit is distributed this way.
+- [`PROJECT-DOCUMENTATION.md`](./PROJECT-DOCUMENTATION.md): full kit documentation.

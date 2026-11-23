@@ -1,65 +1,69 @@
-# AI Engineering Kit — Project Documentation & Guides
+# AI Engineering Kit — Project Documentation
 
-> Comprehensive documentation of what the AI Engineering Kit is, what was built (V1.0–V1.2),
-and how to use it.
+> What the kit is, how it evolved, and where to find each part. Task-oriented guides live in
+> [`USAGE.md`](./USAGE.md) (adoption) and [`ARCHITECTURE.md`](./ARCHITECTURE.md) (design).
 
-- **What it is** → [overview](#overview)
-- **What was built** → [build history](#build-history-v10-v11-v12)
-- **How the kit is organized** → [structure](#repository-structure)
-- **How to adopt in a project** → [quick start](#quick-start-adopting-the-kit)
-- **Per-agent adoption** → [docs/USAGE.md](./USAGE.md)
-- **Global profile vs project rules** → [profiles](#profile-precedence)
-- **Validation** → [validating-the-kit](#validating-the-kit)
-- **Project memory & workflow** → [project-memory](#project-memory)
+- [Overview](#overview)
+- [Build history](#build-history)
+- [Repository structure](#repository-structure)
+- [Quick start](#quick-start)
+- [Precedence](#precedence)
+- [Validating the kit](#validating-the-kit)
+- [Project memory](#project-memory)
 
 ---
 
 ## Overview
 
-The **AI Engineering Kit** is a reusable, **vendor-neutral**, modular engineering toolkit — not an
-application. It codifies the standards, workflows, and guardrails that any AI coding agent should
-follow across any software project.
+The **AI Engineering Kit** is a reusable, **vendor-neutral** set of engineering rules for AI
+coding agents: security and data-safety non-negotiables, git discipline, planning gates,
+code-review and testing expectations, and per-stack conventions. It works with Claude Code,
+OpenAI Codex, Cursor, GitHub Copilot, Gemini CLI, Kilo Code, Windsurf, and Aider.
 
-It works with: **Claude Code, OpenAI Codex, Kilo Code, Cursor, GitHub Copilot, Gemini CLI, Aider,
-Windsurf**, and future agents.
-
-The kit's North Star is a single **canonical source of truth** (`core/AGENTS.md`) that every
-adapter and framework pack **extends — never duplicates**.
+Every rule lives in one `core/` module. `core/ESSENTIALS.md` is the compact summary that each
+adopting project loads on every task; the full modules are vendored alongside it for on-demand
+reading.
 
 ---
 
-## Build History (V1.0 → V1.1 → V1.2)
+## Build History
 
-### V1.0 — Scaffold (commit `b5aaab7`)
+### V1.0 — Scaffold
 
-- `README.md`, `LICENSE` (MIT), `CHANGELOG.md`, `CONTRIBUTING.md`
-- `core/AGENTS.md` hub + 14 canonical rule modules (Security, Git, Coding Standards, Architecture,
-  Database, API, Testing, Performance, Documentation, Accessibility, Error Handling, Dependencies,
-  AI Workflow, Prompting).
-- `adapters/` (8) and `framework-packs/` (20) — each minimal, each pointing back to the core.
-- `prompts/` (12), `templates/` (9), `checklists/` (8), `examples/`, `scripts/validate-kit.ps1`.
-- `docs/ARCHITECTURE.md` (the kit's engineering design).
+`core/` hub plus 14 rule modules, 8 adapters, 20 framework packs, 12 prompts, 9 templates,
+8 checklists, an example, a validator, and `docs/ARCHITECTURE.md`.
 
-### V1.1 — Engineering Workflow Layer (commit `a891fc5`)
+### V1.1 — Engineering Workflow Layer
 
-Added an **agent workflow layer** so the kit defines *how* agents work, not just *what* to follow.
+Six workflow modules (`PLANNING`, `REFACTORING`, `CODE_REVIEW`, `COMMIT_WORKFLOW`,
+`ENGINEERING_PRINCIPLES`, `AI_RESTRICTIONS`), the project-memory system in `docs/`, log
+templates, and `checklists/code-review.md`. See decision D1.
 
-- **6 new core modules:** `PLANNING.md` (stop-and-approve gate for architecture/API/DB/auth/deploy
-  changes), `REFACTORING.md` (read-first, split-don't-rewrite), `CODE_REVIEW.md` (AI auto-review
-  checklist), `COMMIT_WORKFLOW.md` (atomic, conventional-commit authoring),
-  `ENGINEERING_PRINCIPLES.md` (design/hygiene principles), `AI_RESTRICTIONS.md` (never-reveal/never-do).
-- **Project-memory system** under `docs/`: `activity-log.md`, `decision-log.md`, `roadmap.md`,
-  `technical-debt.md`, and `session-log/` — so future agents inherit context instead of
-  rediscoving it.
-- **Templates** for each log type; **`checklists/code-review.md`** (structured auto-review).
-- `core/AGENTS.md` reindexed to point the rule-category table at the *dedicated* modules
-  (no duplication); `AI_WORKFLOW.md`, `CODING_STANDARDS.md`, `GIT.md`, `DOCUMENTATION.md`, and
-  `SECURITY.md` now defer to the new modules.
+### V1.2 — Usage Guide
 
-### V1.2 — Usage Guide (commit `f063463`)
+`docs/USAGE.md` and this document.
 
-- Added `docs/USAGE.md` with copy-paste terminal commands (PowerShell + bash) for adopting the kit
-  in a new project as **each** supported agent. Linked from `README.md` and `docs/INTEGRATION.md`.
+### V1.3 — Working Adoption
+
+V1.2's per-agent instructions relied on an `@import` syntax no agent supports and on several
+wrong file names, so adopted rules were never actually loaded. V1.3 fixes that:
+
+- `scripts/adopt-kit.ps1` vendors the kit, writes a managed `AGENTS.md` block, and writes the
+  per-tool shims (decision D2).
+- `core/ESSENTIALS.md` provides the always-loaded rule digest.
+- Adapters rewritten against each tool's documented behavior; all 20 packs filled with
+  concrete rules.
+- The validator works from any directory and checks links, section references, and more; CI
+  runs it on Linux and Windows.
+
+### V1.4 — Prompt Library and Skills
+
+An external Claude prompt library was merged in (stronger review, debugging, testing,
+security, and docs prompts; new investigation, handoff, architecture-decision, and
+learning/career prompts), and its safety rules were folded into core. Fifteen prompts now
+install as Claude Code skills through `scripts/install-skills.ps1` (decision D3).
+
+Details: [`CHANGELOG.md`](../CHANGELOG.md).
 
 ---
 
@@ -67,155 +71,78 @@ Added an **agent workflow layer** so the kit defines *how* agents work, not just
 
 ```
 AI-Engineering-Kit/
-├── README.md                    # Overview + consumption options
-├── LICENSE                      # MIT
-├── CHANGELOG.md                 # Keep-a-Changelog format
-├── CONTRIBUTING.md              # How to contribute
-├── .gitignore
-├── AGENTS.md                    # Root project instructions (imports core)
+├── AGENTS.md, CLAUDE.md     # Instructions for agents working on the kit itself
 ├── core/
-│   ├── AGENTS.md                # CANONICAL source of truth (hub)
-│   ├── SECURITY.md
-│   ├── GIT.md
-│   ├── COMMIT_WORKFLOW.md
-│   ├── CODING_STANDARDS.md
-│   ├── REFACTORING.md
-│   ├── ARCHITECTURE.md
-│   ├── DATABASE.md
-│   ├── API.md
-│   ├── TESTING.md
-│   ├── PERFORMANCE.md
-│   ├── DOCUMENTATION.md
-│   ├── ACCESSIBILITY.md
-│   ├── ERROR_HANDLING.md
-│   ├── DEPENDENCIES.md
-│   ├── AI_WORKFLOW.md
-│   ├── PLANNING.md
-│   ├── CODE_REVIEW.md
-│   ├── ENGINEERING_PRINCIPLES.md
-│   ├── AI_RESTRICTIONS.md
-│   └── PROMPTING.md
-├── adapters/                    # 8 minimal per-vendor files
-├── framework-packs/             # 20 stack-specific packs
-├── prompts/                     # 12 reusable agent prompts
-├── templates/                   # 9 file templates + 5 log-entry templates
-├── checklists/                  # 9 gate checklists
-├── examples/                    # Worked examples
-├── scripts/                     # validate-kit.ps1
-└── docs/
-    ├── ARCHITECTURE.md          # kit's engineering design
-    ├── INTEGRATION.md           # adoption walkthrough
-    ├── USAGE.md                 # per-agent terminal commands
-    ├── activity-log.md
-    ├── decision-log.md
-    ├── roadmap.md
-    ├── technical-debt.md
-    └── session-log/             # per-session notes
+│   ├── AGENTS.md            # Index of every module
+│   ├── ESSENTIALS.md        # Always-loaded digest (inlined into projects)
+│   ├── SECURITY.md, AI_RESTRICTIONS.md, GIT.md, COMMIT_WORKFLOW.md
+│   ├── PLANNING.md, REFACTORING.md, CODE_REVIEW.md, ENGINEERING_PRINCIPLES.md
+│   ├── CODING_STANDARDS.md, ARCHITECTURE.md, DATABASE.md, API.md, TESTING.md
+│   └── PERFORMANCE.md, DOCUMENTATION.md, ACCESSIBILITY.md, ERROR_HANDLING.md,
+│       DEPENDENCIES.md, AI_WORKFLOW.md, PROMPTING.md
+├── framework-packs/         # 20 stack packs
+├── adapters/                # 8 tool adapters
+├── prompts/                 # 20 task prompts; 15 install as Claude Code skills
+├── templates/               # 10 file templates + 5 log-entry templates
+├── checklists/              # 9 gate checklists
+├── examples/                # Worked adoption examples
+├── scripts/                 # adopt-kit.ps1, install-skills.ps1, validate-kit.ps1
+├── .github/workflows/       # CI
+└── docs/                    # Design, usage, and this repo's project memory
 ```
 
 ---
 
-## Quick Start: Adopting the Kit
+## Quick Start
 
-> Full per-agent copy-paste commands: see [`docs/USAGE.md`](./USAGE.md).
+```powershell
+& "<path-to-kit>/scripts/adopt-kit.ps1" -Project <project> -Agents claude -Packs typescript,react
+```
 
-1. **Point the adapter at the canonical core.** Create the instruction file your agent expects at
-   the project root, importing both the core and any framework packs. Example (Kilo / Cursor /
-   Codex / Aider — all use `@import`):
-
-   ```markdown
-   @import [/abs/path/to/AI-Engineering-Kit/core/AGENTS.md](/abs/path/to/AI-Engineering-Kit/core/AGENTS.md)
-   @import [/abs/path/to/AI-Engineering-Kit/framework-packs/typescript.md](/abs/path/to/AI-Engineering-Kit/framework-packs/typescript.md)
-   ```
-
-2. **Add more packs** as needed (e.g. `react.md`, `nextjs.md`, `prisma.md`).
-
-3. **Done.** Launching your agent in that folder now follows the kit's rules.
-
-### Why absolute `@import` paths?
-
-Using an absolute path keeps every project's instruction file tiny while the **single canonical
-source stays in one place** — edits to the kit propagate to all consumers instantly. Project rules
-always override the imported core.
+Then add project-specific rules below the managed block in the project's `AGENTS.md`. All
+options, updating, and verification: [`USAGE.md`](./USAGE.md).
 
 ---
 
-## Profile Precedence
+## Precedence
 
 ```
-Global user profile                (lowest)  e.g. %USERPROFILE%\.config\kilo\AGENTS.md
+Global user profile           (lowest)  personal preferences
    ↓
-Project instruction file                       e.g. AGENTS.md / CLAUDE.md / .cursorrules
+Kit core                                 managed block + .ai-kit/core/
    ↓
-Active framework packs                                  e.g. typescript.md, react.md
+Framework packs                          stack-specific additions
    ↓
-Vendor adapter (tool-specific concerns only)             (highest)
+Project instructions          (highest) AGENTS.md outside the managed block
 ```
 
-- **Global** = your personal prefs (never read `.env`, ask before installing deps, never auto-push).
-- **Project** = how the AI should work *on that repository*.
-- **Framework packs** = stack-specific conventions (additive).
-- **Adapter** = only tool-specific directives (file format, comment syntax).
-
-> Project-level instructions always take precedence over global.
+The Non-Negotiables in `core/ESSENTIALS.md` override every layer; only the user, in the
+conversation, can relax them. Adapters only wire tools to `AGENTS.md`; they are not a layer.
 
 ---
 
 ## Validating the Kit
 
-From anywhere, validate that all internal `@import` links resolve and the expected counts are present:
-
 ```powershell
-# Windows PowerShell
-powershell -ExecutionPolicy Bypass -File <path-to>\AI-Engineering-Kit\scripts\validate-kit.ps1
-
-# macOS / Linux (requires pwsh)
-pwsh -File /path/to/AI-Engineering-Kit/scripts/validate-kit.ps1
+./scripts/validate-kit.ps1        # works from any directory
 ```
 
-Expected output:
-
-```
-All core module imports resolve.
-Framework packs: 20 | Adapters: 8
-```
-
----
-
-## Non-Negotiable Invariants (Always Enforced)
-
-These never change, across every layer:
-
-- **Never** read `.env` unless explicitly instructed. **Never** expose secrets/keys/tokens/creds.
-  **Never** auto-commit/push/rebase/reset. **Never** run destructive SQL (`DROP DATABASE/TABLE`);
-  `DELETE`/`UPDATE` only with `WHERE`. **Never** modify prod data/infra. **Always** confirm before
-  irreversible actions.
-
-Full policy lives in `core/SECURITY.md`, `core/AI_RESTRICTIONS.md`, `core/GIT.md`,
-`core/COMMIT_WORKFLOW.md`, `core/DATABASE.md`.
+On success it prints counts of modules, packs, adapters, links, and section references
+checked. On failure it lists every problem and exits 1. CI
+(`.github/workflows/validate.yml`) runs it plus an adoption smoke test.
 
 ---
 
 ## Project Memory
 
-The kit treats `docs/` as long-term memory. After each session, append an entry to
-`docs/activity-log.md` (template: `templates/activity-log-entry.md`) so the next agent can
-understand what changed and why. Related memory files:
+`docs/` doubles as this repository's long-term memory, and `adopt-kit.ps1 -WithMemory`
+creates the same files in adopting projects:
 
-- `docs/decision-log.md` — architecture decisions (D1–Dn).
-- `docs/roadmap.md` — planned features.
-- `docs/technical-debt.md` — future improvements (T1–Tn).
-- `docs/session-log/YYYY-MM-DD-brief-title.md` — per-session notes (template:
-  `templates/session-log.md`).
+- `activity-log.md`: significant work (template: `templates/activity-log-entry.md`).
+- `decision-log.md`: architecture decisions (D1–Dn).
+- `roadmap.md`: planned features.
+- `technical-debt.md`: known limitations (T1–Tn).
+- `session-log/YYYY-MM-DD-title.md`: per-session notes (template: `templates/session-log.md`).
 
-This is what lets the kit be useful "for years" across many projects and agents.
-
----
-
-## Where to Go Next
-
-- Read a specific rule: see the index in `core/AGENTS.md` §3 Rule Categories.
-- Adopt in a project: see `docs/USAGE.md`.
-- Contribute: see `CONTRIBUTING.md`.
-- Extend the kit (new module/pack/adapter): see `core/PLANNING.md` — **stop and seek review**
-  before architectural additions.
+Before extending the kit with a new module, pack, or adapter, follow `core/PLANNING.md`:
+propose the change and record the decision.

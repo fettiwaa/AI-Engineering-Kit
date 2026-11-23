@@ -1,141 +1,127 @@
 # AI Engineering Kit
 
-> A professional, modular, vendor-neutral engineering toolkit for AI coding agents.
+> A modular, vendor-neutral engineering rulebook for AI coding agents, with one command to
+> adopt it in any project.
 
-**AI Engineering Kit** is a reusable engineering toolkit — not an application. It codifies the
-standards, workflows, and guardrails that every AI coding agent should follow across every
-software project. The kit is designed to be **cloned, imported, or referenced** by any repository
-so that consistent engineering practices are applied regardless of whether the agent is
-**Claude Code**, **OpenAI Codex**, **Kilo Code**, **Cursor**, **GitHub Copilot**, **Gemini CLI**,
-**Aider**, **Windsurf**, or any future AI coding agent.
+**AI Engineering Kit** codifies the standards, workflows, and guardrails an AI coding agent
+should follow: security non-negotiables, git and database safety, planning gates, code review,
+testing, and stack-specific conventions. It is a toolkit, not an application.
 
-## Why
+It works with **Claude Code**, **OpenAI Codex**, **Cursor**, **GitHub Copilot**,
+**Gemini CLI**, **Kilo Code**, **Windsurf**, and **Aider**, through the cross-tool
+[`AGENTS.md`](https://agents.md) convention plus a thin shim for tools that need one.
 
-AI coding agents are powerful, but without a shared contract they produce inconsistent, unsafe, or
-non-portable output. This kit provides that contract: a single canonical source of truth
-(`AGENTS.md`) that is extended — never duplicated — by per-vendor adapters and per-framework packs.
+## Quick Start
 
-## Canonical Source of Truth
+```powershell
+# From anywhere; PowerShell 5.1+ on Windows, or pwsh on macOS/Linux.
+& "<path-to-kit>/scripts/adopt-kit.ps1" -Project . -Agents claude,cursor -Packs typescript,react
+```
 
-| Layer | Purpose | Precedence |
-|-------|---------|------------|
-| Global profile (user home) | Your personal engineering preferences (e.g. "never read .env"). | Lowest |
-| Repository `core/AGENTS.md` | Project-specific standards. | High — overrides global |
-| Framework packs (`framework-packs/*`) | Stack-specific conventions. | Extends project |
-| Adapters (`adapters/*`) | Compatibility with each AI coding tool. | Minimal — references the above |
+This:
 
-> Project-level instructions **always take precedence** over global instructions.
+1. Vendors the kit into `.ai-kit/` inside your project, so every agent can read it without
+   leaving the workspace.
+2. Writes a managed block into your `AGENTS.md` containing the always-on rules
+   ([`core/ESSENTIALS.md`](core/ESSENTIALS.md)) plus the packs you chose. Anything you write
+   outside the block is kept.
+3. Writes shims where a tool needs one (`CLAUDE.md`, `GEMINI.md`,
+   `.github/copilot-instructions.md`, `.aider.conf.yml`).
+
+Re-run it any time to update. Add `-DryRun` to preview, `-WithMemory` to create the
+project-memory files in `docs/`, and `-Skills all` to install the Claude Code skills. Full
+guide: [`docs/USAGE.md`](docs/USAGE.md).
+
+## Claude Code Skills
+
+Fifteen prompts double as Claude Code skills, generated from [`prompts/`](prompts/):
+
+| Engineering (auto + `/command`) | Manual only (`/command`) |
+|---------------------------------|--------------------------|
+| `/investigate-codebase`, `/plan-change`, `/debug-issue`, `/review-code`, `/refactor-code`, `/write-tests`, `/security-audit`, `/architecture-decision`, `/write-docs` | `/session-handoff`, `/build-skill`, `/tutor`, `/socratic-coach`, `/portfolio-review`, `/mock-interview` |
+
+```powershell
+& "<path-to-kit>/scripts/install-skills.ps1" -Skills all -Scope user   # every project
+& "<path-to-kit>/scripts/install-skills.ps1" -Skills all               # this project only
+```
+
+Auto skills load when your request matches their description; manual ones run only when you
+type the command. List them with `install-skills.ps1 -List`.
+
+## How Agents Load It
+
+| Agent | Reads | Shim written |
+|-------|-------|--------------|
+| OpenAI Codex, Cursor, Kilo Code, Windsurf | `AGENTS.md` | none |
+| GitHub Copilot | `.github/copilot-instructions.md`, `AGENTS.md` | `.github/copilot-instructions.md` |
+| Claude Code | `CLAUDE.md` | `CLAUDE.md` containing `@AGENTS.md` |
+| Gemini CLI | `GEMINI.md` | `GEMINI.md` containing `@./AGENTS.md` |
+| Aider | files listed under `read:` | `.aider.conf.yml` with `read: [AGENTS.md]` |
+
+Per-tool details: [`adapters/`](adapters/).
+
+## Precedence
+
+Later layers override earlier ones:
+
+1. Global user profile (your personal preferences).
+2. Kit core rules (`core/`).
+3. Framework packs (`framework-packs/`).
+4. The project's own instructions (outside the managed block in its `AGENTS.md`).
+
+The **Non-Negotiables** sit above every layer; only the user, in the conversation, can relax
+them:
+
+- Never read `.env` files or expose secrets, credentials, or customer data.
+- Never auto-run `git commit`, `push`, `rebase`, `reset --hard`, or `clean -fd`.
+- Never generate destructive SQL or touch production data or infrastructure.
+- Always ask before irreversible actions and before adding dependencies.
 
 ## Repository Layout
 
 ```
 AI-Engineering-Kit/
-├── README.md              # This file
-├── LICENSE
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── core/                  # Canonical, vendor-neutral rules
-│   ├── AGENTS.md          # Single source of truth
-│   ├── SECURITY.md
-│   ├── CODING_STANDARDS.md
-│   ├── ARCHITECTURE.md
-│   ├── DATABASE.md
-│   ├── API.md
-│   ├── TESTING.md
-│   ├── PERFORMANCE.md
-│   ├── DOCUMENTATION.md
-│   ├── ACCESSIBILITY.md
-│   ├── ERROR_HANDLING.md
-│   ├── DEPENDENCIES.md
-│   ├── GIT.md
-│   ├── AI_WORKFLOW.md
-│   └── PROMPTING.md
-├── adapters/              # Per-vendor compatibility layers
-│   ├── claude-code.md
-│   ├── openai-codex.md
-│   ├── kilo.md
-│   ├── cursor.md
-│   ├── copilot.md
-│   ├── gemini-cli.md
-│   ├── aider.md
-│   └── windsurf.md
-├── framework-packs/       # Per-stack conventions
-│   ├── typescript.md
-│   ├── javascript.md
-│   ├── react.md
-│   ├── nextjs.md
-│   ├── vue.md
-│   ├── angular.md
-│   ├── svelte.md
-│   ├── nodejs.md
-│   ├── express.md
-│   ├── nestjs.md
-│   ├── firebase.md
-│   ├── supabase.md
-│   ├── prisma.md
-│   ├── drizzle.md
-│   ├── flutter.md
-│   ├── laravel.md
-│   ├── fastapi.md
-│   ├── spring.md
-│   ├── aspnet.md
-│   └── tailwind.md
-├── prompts/               # Reusable prompt library
-├── templates/             # Reusable file templates
-├── checklists/            # Reusable pre-flight checklists
-├── examples/              # Worked examples
-├── scripts/               # Utility scripts
-└── docs/                  # Narrative documentation
-    ├── ARCHITECTURE.md
-    ├── INTEGRATION.md
-    └── ...
+├── core/                 # Canonical rules
+│   ├── AGENTS.md         #   index of every module
+│   ├── ESSENTIALS.md     #   always-loaded summary (inlined into projects)
+│   └── *.md              #   21 modules: SECURITY, GIT, DATABASE, PLANNING, CODE_REVIEW, ...
+├── framework-packs/      # 20 stack packs: typescript, react, nextjs, prisma, fastapi, ...
+├── adapters/             # How each of the 8 supported tools loads the rules
+├── prompts/              # 20 task prompts (15 also install as Claude Code skills)
+├── templates/            # 15 templates (ADR, RFC, PR, project instructions, log entries, ...)
+├── checklists/           # 9 gates (before commit/PR/merge/release, security, a11y, ...)
+├── examples/             # Worked adoption examples
+├── scripts/
+│   ├── adopt-kit.ps1     # Adopt or update the kit in a project
+│   ├── install-skills.ps1# Install prompts as Claude Code skills
+│   └── validate-kit.ps1  # Consistency checks (run in CI)
+├── docs/                 # Design, usage, and this repo's own project memory
+├── AGENTS.md / CLAUDE.md # Instructions for agents working on the kit itself
+└── CHANGELOG.md · CONTRIBUTING.md · LICENSE
 ```
 
-## How to Consume
+## Documentation
 
-> Copy-paste commands for every supported agent live in
-> [`docs/USAGE.md`](docs/USAGE.md).
+- [`docs/USAGE.md`](docs/USAGE.md): adopting, updating, and customizing.
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md): layers, distribution model, design principles.
+- [`docs/PROJECT-DOCUMENTATION.md`](docs/PROJECT-DOCUMENTATION.md): full guide and build history.
+- [`prompts/README.md`](prompts/README.md): prompt and skill index.
+- [`docs/references.md`](docs/references.md): prompting and Claude Code documentation.
+- [`core/AGENTS.md`](core/AGENTS.md): index of every rule module.
 
-### Option A — Reference this kit
+## Validating
 
-In your project's `AGENTS.md`, prepend a pointer to the canonical source:
-
-```markdown
-# Project Agent Instructions
-
-@file ../AI-Engineering-Kit/core/AGENTS.md
-
-<!-- Project-specific overrides below -->
+```powershell
+./scripts/validate-kit.ps1
 ```
 
-### Option B — Copy a framework pack
-
-Copy `framework-packs/typescript.md` (and any others relevant) into your project and annotate
-which rules are active.
-
-### Option C — Global profile only
-
-Place a single `AGENTS.md` in your global Kilo profile directory
-(`%USERPROFILE%\.config\kilo\AGENTS.md`) to apply personal preferences everywhere.
-
-## Security Posture
-
-See `core/SECURITY.md` for the full policy. Core invariants:
-
-- Never read `.env` files unless explicitly instructed.
-- Never expose secrets, tokens, keys, or environment variables.
-- Never perform irreversible shell commands automatically.
-- Always request confirmation before destructive actions.
-
-## Git Policy
-
-No automatic `git commit`, `git push`, `git reset --hard`, `git rebase`, or `git clean -fd`
-unless explicitly instructed.
+Checks module indexing, relative links, section references, pack/adapter citations, the
+ESSENTIALS size budget, CHANGELOG shape, and hard-coded personal paths. CI runs it on every
+push and pull request.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). By participating you agree to act as a responsible
-steward of vendor-neutral, production-ready engineering practices.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

@@ -5,7 +5,7 @@ Reuse for: finding and fixing a performance bottleneck.
 ## Role
 
 You are a performance engineer for a project governed by
-`AI-Engineering-Kit/core/AGENTS.md`.
+`core/AGENTS.md` (the AI Engineering Kit; `.ai-kit/core/AGENTS.md` in adopting projects).
 
 ## Task
 

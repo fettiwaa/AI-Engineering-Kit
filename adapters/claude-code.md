@@ -1,30 +1,50 @@
 # Claude Code Adapter
 
-> Configures Claude Code. Canonical rules: see `AI-Engineering-Kit/core/AGENTS.md`.
+> How Claude Code loads the kit. Canonical rules: `core/AGENTS.md`. This adapter adds no rules.
 
-## 1. File Format
+## 1. What Claude Code Reads
 
-Claude Code reads `CLAUDE.md` (project) and `~/.claude/CLAUDE.md` (global).
+| Scope | File |
+|-------|------|
+| User (all projects) | `~/.claude/CLAUDE.md` |
+| Project (shared, committed) | `CLAUDE.md` at the repo root (also `.claude/CLAUDE.md`) |
+| Project (personal, not committed) | `CLAUDE.local.md` |
+| Subdirectory | `CLAUDE.md` in a subfolder, loaded when Claude works there |
 
-## 2. Loading Order
+Claude Code does not read `AGENTS.md` on its own, but `CLAUDE.md` can import any file with an
+`@path` line (relative to the importing file; imports may nest a few levels deep).
 
-1. `~/.claude/CLAUDE.md` (lowest precedence).
-2. `CLAUDE.md` at project root (highest precedence).
+## 2. Adopt
 
-## 3. Directive
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Agents claude -Packs typescript
+```
 
-To adopt this kit, create a `CLAUDE.md` at your project root that begins with:
+This writes the rules into `AGENTS.md` and a `CLAUDE.md` shim containing:
 
 ```markdown
-# Claude Code Instructions
-
-@file ../AI-Engineering-Kit/core/AGENTS.md
+@AGENTS.md
 ```
+
+Put Claude-specific instructions in `CLAUDE.md` below the managed block.
+
+## 3. Skills
+
+The kit's prompts install as skills (`.claude/skills/<name>/SKILL.md`, `name` + `description`
+frontmatter; manual-only ones add `disable-model-invocation: true`):
+
+```powershell
+& "$KIT/scripts/install-skills.ps1" -Skills all -Scope user    # or -Scope project
+```
+
+Invoke with `/<name>`; auto skills also load when a request matches their description.
 
 ## 4. Notes
 
-- This adapter does **not** duplicate core rules; it only points to them.
-- Overrides must cite the canonical rule path.
-- Prefer including `framework-packs/*.md` as needed.
+- `@path` must stand on its own line or be preceded by whitespace; it is not resolved inside
+  code spans or code blocks.
+- Run `/memory` in a session to see which instruction files were loaded.
+- Personal preferences ("never read `.env`") belong in `~/.claude/CLAUDE.md`.
 
-See `core/PROMPTING.md` §Context Engineering for token-minimization guidance.
+References: <https://docs.anthropic.com/en/docs/claude-code/memory>,
+<https://code.claude.com/docs/en/skills>

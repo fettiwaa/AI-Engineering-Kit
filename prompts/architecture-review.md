@@ -5,7 +5,7 @@ Reuse for: evaluating a proposed design.
 ## Role
 
 You are a principal architect reviewing a proposal governed by
-`AI-Engineering-Kit/core/AGENTS.md`.
+`core/AGENTS.md` (the AI Engineering Kit; `.ai-kit/core/AGENTS.md` in adopting projects).
 
 ## Task
 

@@ -1,32 +1,32 @@
 # GitHub Copilot Adapter
 
-> Configures GitHub Copilot (Copilot Chat / Copilot Agent mode). Canonical rules: see
-> `AI-Engineering-Kit/core/AGENTS.md`.
+> How GitHub Copilot (chat, agent mode, coding agent, CLI) loads the kit. Canonical rules:
+> `core/AGENTS.md`. This adapter adds no rules.
 
-## 1. Instruction File
+## 1. What Copilot Reads
 
-Copilot reads `.github/Copilot-instructions.md` (repo) and user-configured global instructions.
+| File | Scope |
+|------|-------|
+| `.github/copilot-instructions.md` | Repository-wide; the primary file in every Copilot surface. |
+| `.github/instructions/*.instructions.md` | Path-specific (`applyTo` glob frontmatter). |
+| `AGENTS.md` (nearest in the tree wins) | Agent instructions; also `CLAUDE.md` / `GEMINI.md`. |
 
-## 2. Loading Order
+Support differs by surface (VS Code, github.com, CLI, code review); `AGENTS.md` may need to be
+enabled in VS Code settings. Writing both files covers every surface.
 
-1. User global instructions (lowest precedence).
-2. `.github/Copilot-instructions.md` (project precedence).
-3. Inline chat instructions (highest — turn-level).
+## 2. Adopt
 
-## 3. Directive
-
-To adopt this kit, create `.github/Copilot-instructions.md` at your repository root:
-
-```markdown
-# Copilot Instructions
-
-The canonical rule set for this project is AI-Engineering-Kit/core/AGENTS.md.
-Reference it and add project-specific overrides below.
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Agents copilot -Packs typescript
 ```
 
-## 4. Notes
+This writes the rules into `AGENTS.md` and a `.github/copilot-instructions.md` shim that
+points Copilot at it. Copilot does not resolve imports, so keep project-specific Copilot
+guidance short and in that file, below the managed block.
 
-- Copilot does not support automatic file imports; rules must be inlined or linked.
-- Keep this file minimal: point to the canonical core and state project-specific overrides only.
+## 3. Notes
 
-See `core/SECURITY.md` §Non-Negotiables.
+- The filename is lowercase: `.github/copilot-instructions.md`.
+- Use path-specific `.instructions.md` files to apply a pack only where it is relevant.
+
+Reference: <https://docs.github.com/en/copilot/reference/custom-instructions-support>

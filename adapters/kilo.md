@@ -1,37 +1,30 @@
-# Kilo Adapter
+# Kilo Code Adapter
 
-> Configures Kilo Code. Canonical rules: see `AI-Engineering-Kit/core/AGENTS.md`.
+> How Kilo Code loads the kit. Canonical rules: `core/AGENTS.md`. This adapter adds no rules.
 
-## 1. Instruction Files
+## 1. What Kilo Code Reads
 
-Kilo supports:
+| Scope | Location |
+|-------|----------|
+| Project | `AGENTS.md` at the workspace root (loaded automatically; `AGENT.md` also accepted) |
+| Project rules | `.kilo/rules/` referenced from `kilo.jsonc`; legacy `.kilocode/rules/` still loads |
+| Global | Your Kilo global profile (e.g. `~/.config/kilo/AGENTS.md` for current Kilo; the legacy extension used `~/.kilocode/rules/`) |
 
-- Global: `%USERPROFILE%\.config\kilo\AGENTS.md` (Windows) or `~/.config/kilo/AGENTS.md` (Unix).
-- Project: `AGENTS.md` at the workspace root.
-- Per-directory: `AGENTS.md` in any subdirectory.
+Kilo Code treats `AGENTS.md` as write-protected, so the agent will not edit it without asking.
 
-## 2. Loading Order
+## 2. Adopt
 
-1. Global profile (lowest precedence).
-2. Project `AGENTS.md` (overrides global).
-3. Subdirectory `AGENTS.md` (overrides project).
-
-## 3. Directive
-
-To adopt this kit, the project root must contain an `AGENTS.md` that imports the canonical core:
-
-```markdown
-# AGENTS.md
-
-@import ../AI-Engineering-Kit/core/AGENTS.md
-
-# Project-specific overrides
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Packs typescript
 ```
 
-## 4. Notes
+No shim is needed.
 
-- Project-level instructions always take precedence over global.
-- The global profile should hold personal preferences only (e.g. "never read .env",
-  "ask before installing dependencies").
+## 3. Notes
 
-See `core/AI_WORKFLOW.md` for agent workflow guidance.
+- Keep the global profile for personal preferences only ("never read `.env`", "ask before
+  installing dependencies"); the project's `AGENTS.md` overrides it.
+- Mode-specific rules (e.g. a reviewer mode) can live in Kilo's rules directories and point at
+  `.ai-kit/checklists/` or `.ai-kit/prompts/`.
+
+Reference: <https://kilo.ai/docs/customize/agents-md>

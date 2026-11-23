@@ -20,7 +20,8 @@
 
 - Keep comments concise — one sentence, one line when possible.
 - No emojis or decorative ASCII.
-- Markdown filenames use `kebab-case`.
+- Markdown filenames use `kebab-case`, except conventional uppercase files (`README.md`,
+  `AGENTS.md`, `CHANGELOG.md`, `CONTRIBUTING.md`, `LICENSE`) and the kit's `core/` modules.
 
 ## 4. Documentation
 

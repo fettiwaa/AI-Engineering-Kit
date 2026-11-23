@@ -1,15 +1,26 @@
 # Prisma Framework Pack
 
-> Extends `core/AGENTS.md`. Applies to Prisma projects.
+> Extends `core/AGENTS.md`. Applies to Prisma ORM projects.
 
-## 1. Schema
+## 1. Verify Before Finishing
 
-- Version the Prisma schema (`schema.prisma`).
-- Generate and commit client types.
+- After editing `schema.prisma`: `prisma format`, `prisma validate`, `prisma generate`.
 
 ## 2. Migrations
 
-- Use `prisma migrate dev` locally; `prisma migrate deploy` in CI.
-- Never run `prisma db push` on production.
+- Create migrations with `prisma migrate dev --name <change>` and commit the generated SQL.
+  Review it: renames can be generated as drop + add, which loses data.
+- Apply in CI/production with `prisma migrate deploy` only.
+- Never run `prisma migrate reset`, or `prisma db push --accept-data-loss`, against a shared or
+  production database. `db push` is for throwaway prototypes.
 
-See `core/DATABASE.md`.
+## 3. Queries
+
+- Reuse a single `PrismaClient` instance (a module singleton; guard against hot-reload
+  duplicates in dev).
+- Use `select` / `include` deliberately; avoid N+1 loops (batch with `in` filters or relations).
+- Use `$transaction` for multi-step writes.
+- Raw SQL only through tagged `$queryRaw` / `$executeRaw` (parameterized). Never pass user input
+  to `$queryRawUnsafe` / `$executeRawUnsafe`.
+
+See `core/DATABASE.md` §Migrations and `core/DATABASE.md` §Queries.

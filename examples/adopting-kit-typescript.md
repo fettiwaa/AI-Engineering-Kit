@@ -1,34 +1,46 @@
-# Example: Adopting the Kit in a New TypeScript Project
+# Example: Adopting the Kit in a TypeScript Service (Kilo Code + Cursor)
 
-This example demonstrates wiring a new TypeScript project to the AI Engineering Kit via
-the Kilo adapter and the TypeScript framework pack.
+A Node.js + TypeScript API whose team uses Kilo Code and Cursor. Both read `AGENTS.md`
+directly, so no shims are needed.
 
-## Structure
+## Command
+
+```powershell
+cd my-service
+& "$KIT/scripts/adopt-kit.ps1" -Packs typescript,nodejs,express,prisma -WithMemory
+```
+
+## Result
 
 ```
-my-project/
-├── AGENTS.md          # Project adapter (Kilo)
-├── README.md          # Follows templates/readme.md
+my-service/
+├── AGENTS.md            # managed block (ESSENTIALS + 4 packs) + project section
+├── .ai-kit/             # vendored kit v1.3.0 (core, checklists, prompts, templates, 4 packs)
+├── docs/
+│   ├── activity-log.md
+│   ├── decision-log.md
+│   ├── roadmap.md
+│   └── technical-debt.md
 ├── package.json
-├── tsconfig.json
+├── prisma/schema.prisma
 └── src/
 ```
 
-## AGENTS.md
+## Project Section
+
+The team then fills in the section below the managed block:
 
 ```markdown
-# AGENTS.md
+## Project-Specific Instructions
 
-@import ../AI-Engineering-Kit/core/AGENTS.md
-@import ../AI-Engineering-Kit/framework-packs/typescript.md
-
-# Project-specific
-- Lint with ESLint flat config.
-- Run `tsc --noEmit` before every commit.
+- Package manager: npm. Verify with `npm run typecheck && npm run lint && npm test`.
+- Routes in `src/routes/`, services in `src/services/`, Prisma access only in `src/repositories/`.
+- Local DB: `docker compose up db`. Never point tests at `DATABASE_URL` from `.env.production`.
 ```
 
-## How the layers resolve
+## How the Layers Resolve
 
-1. **Global** (`kilo/AGENTS.md`) — personal preferences like "ask before installing deps".
-2. **Project** (`AGENTS.md`) — imports the canonical core + TypeScript pack.
-3. This project overrides only what is unique (lint command).
+1. **Global**: each developer's Kilo/Cursor user rules ("ask before installing deps").
+2. **Kit core**: the managed block; full modules in `.ai-kit/core/` on demand.
+3. **Packs**: TypeScript, Node.js, Express, and Prisma conventions.
+4. **Project**: the section above, which wins over everything except the Non-Negotiables.

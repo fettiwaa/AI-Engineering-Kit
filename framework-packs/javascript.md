@@ -1,16 +1,28 @@
 # JavaScript Framework Pack
 
-> Extends `core/AGENTS.md`. This pack applies only to JavaScript projects.
+> Extends `core/AGENTS.md`. Applies to JavaScript projects without TypeScript.
 
-## 1. Style
+## 1. Verify Before Finishing
 
-- Use modern ES2022+ features.
-- Prefer `const`/`let` over `var`.
-- Use ES modules (`import`/`export`) unless CommonJS is required.
+- Run the project's lint (ESLint, flat config `eslint.config.js`) and test scripts.
 
-## 2. Linting
+## 2. Language
 
-- Configure ESLint with a flat config.
-- Enable recommended rules; do not disable lint rules silently.
+- Use ES modules unless `package.json` says `"type": "commonjs"`; never mix styles in a file.
+- `const` by default, `let` when reassigned, never `var`. Always `===` / `!==`.
+- Use `async`/`await`. Every promise is awaited, returned, or explicitly handled; no floating
+  promises.
+- Never use `eval`, `new Function`, or `with`.
 
-See `core/CODING_STANDARDS.md` for general principles.
+## 3. Type Safety Without TypeScript
+
+- Document public functions with JSDoc types.
+- Consider `// @ts-check` (or `checkJs`) to get editor type errors for free.
+- Validate external input at boundaries; do not trust shapes of parsed JSON.
+
+## 4. Style
+
+- Prefer small pure functions and named exports.
+- No implicit globals; no mutation of function arguments.
+
+See `core/CODING_STANDARDS.md`.

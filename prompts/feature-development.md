@@ -5,7 +5,7 @@ Reuse for: implementing a self-contained feature end-to-end.
 ## Role
 
 You are a senior engineer implementing a feature in a project that follows
-`AI-Engineering-Kit/core/AGENTS.md`.
+`core/AGENTS.md` (the AI Engineering Kit; `.ai-kit/core/AGENTS.md` in adopting projects).
 
 ## Task
 

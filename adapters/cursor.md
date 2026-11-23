@@ -1,31 +1,38 @@
 # Cursor Adapter
 
-> Configures Cursor. Canonical rules: see `AI-Engineering-Kit/core/AGENTS.md`.
+> How Cursor loads the kit. Canonical rules: `core/AGENTS.md`. This adapter adds no rules.
 
-## 1. Instruction File
+## 1. What Cursor Reads
 
-Cursor reads `.cursorrules` (project) and user-level Cursor rules.
+| Scope | Location |
+|-------|----------|
+| User (all projects) | Cursor Settings > Rules > User Rules |
+| Project | `AGENTS.md` at the repo root (plain Markdown, always applied) |
+| Project (scoped) | `.cursor/rules/*.mdc` with `description` / `globs` / `alwaysApply` frontmatter |
+| Legacy | `.cursorrules` (deprecated; avoid for new projects) |
 
-## 2. Loading Order
+Cursor does not follow `@import`-style lines inside rule files.
 
-1. User-level rules (lowest precedence).
-2. `.cursorrules` at project root (highest precedence).
+## 2. Adopt
 
-## 3. Directive
-
-To adopt this kit, place a `.cursorrules` at your project root that references the canonical core.
-Cursor supports Markdown imports, so:
-
-```markdown
-# Cursor Rules
-
-See AI-Engineering-Kit/core/AGENTS.md for the canonical rule set.
-@import ../AI-Engineering-Kit/core/AGENTS.md
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Packs typescript
 ```
 
-## 4. Notes
+No shim is needed: Cursor applies the generated `AGENTS.md`.
 
-- This adapter does **not** duplicate core rules.
-- Overrides must cite the canonical rule path.
+## 3. Optional: Scoped Pack Rules
 
-See `core/PROMPTING.md` §Context Engineering.
+To apply a pack only to matching files, add a project rule such as
+`.cursor/rules/react.mdc`:
+
+```markdown
+---
+description: React conventions from the AI Engineering Kit
+globs: src/**/*.tsx
+alwaysApply: false
+---
+Follow `.ai-kit/framework-packs/react.md`.
+```
+
+Reference: <https://docs.cursor.com/context/rules>

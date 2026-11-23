@@ -5,20 +5,35 @@
 >
 > See `templates/roadmap-item.md` for the item format.
 
-## Near term (V1.2)
+## Done in V1.3
 
-- [ ] Flesh out stack-specific rules in every `framework-packs/*.md` (currently skeletal).
-- [ ] Add at least one worked example per major framework (TypeScript, React, Next.js, Node).
-- [ ] Add a link-integrity check to `scripts/validate-kit.ps1` and run it in CI.
-- [ ] Add `CONTRIBUTING.md` pointer to the activity/decision logs so contributors maintain them.
+- [x] Flesh out stack-specific rules in every `framework-packs/*.md`.
+- [x] Link-integrity checks in `scripts/validate-kit.ps1`, run in CI.
+- [x] `CONTRIBUTING.md` points contributors at the activity/decision logs.
+- [x] One-command adoption (`scripts/adopt-kit.ps1`) with working per-agent wiring.
 
-## Medium term (V1.3)
+## Done in V1.4
 
-- [ ] Add `.kilo/agent` profiles for common AI agent roles (architect, reviewer, migrator).
-- [ ] Add Kilo commands (`/.kilo/command/`) that wrap reusable prompts as chat-slash commands.
-- [ ] Publish the kit as a GitHub template repository.
+- [x] Claude Code skills generated from prompts (`scripts/install-skills.ps1`).
+- [x] Prompt library merged in: investigation, handoff, architecture decisions, learning and
+      career prompts.
 
-## Long term
+## Near Term (V1.5)
 
-- [ ] Translate canonical docs to support i18n (see `core/DOCUMENTATION.md` §Localization).
-- [ ] Add JSON Schema for framework-pack metadata to enable tooling.
+- [ ] Finish the remaining older prompts and deepen `checklists/` (technical debt T6).
+- [ ] Tune skill descriptions after real use (T7).
+- [ ] Worked examples for a Python (FastAPI) and a mobile (Flutter) project.
+- [ ] `adopt-kit.ps1 -Check`: report whether a project's `.ai-kit/VERSION` is behind the kit.
+
+## Medium Term
+
+- [ ] Optional per-tool extras generated from packs: Cursor `.mdc` and Copilot
+      `.instructions.md` files scoped by glob, so packs load only for matching files.
+- [ ] Generate the equivalent of skills for other tools that support reusable commands
+      (verify each tool's current format first).
+- [ ] Publish the kit as a GitHub template repository with tagged releases (T3).
+
+## Long Term
+
+- [ ] Translate canonical docs (see `core/DOCUMENTATION.md` §Localization).
+- [ ] Machine-readable pack metadata (parents, applicable globs) to drive the adopt script.

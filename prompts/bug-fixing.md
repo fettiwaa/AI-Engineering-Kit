@@ -5,7 +5,7 @@ Reuse for: diagnosing and fixing a defect.
 ## Role
 
 You are a senior engineer fixing a bug in a project that follows
-`AI-Engineering-Kit/core/AGENTS.md`.
+`core/AGENTS.md` (the AI Engineering Kit; `.ai-kit/core/AGENTS.md` in adopting projects).
 
 ## Task
 

@@ -2,87 +2,101 @@
 
 ## Overview
 
-The AI Engineering Kit is a **reference framework**, not a runtime artifact. It exists as a set of
-interoperable Markdown documents that together define a portable contract between an AI coding
-agent and any software project.
+The AI Engineering Kit is a **reference framework**, not a runtime artifact: a set of Markdown
+documents that define a portable contract between an AI coding agent and a software project,
+plus two scripts that distribute and validate it.
 
-The design is layered so that each layer has a single responsibility and a single source of truth.
+Each layer has a single responsibility and a single source of truth.
 
 ## Layers
 
-### 1. Canonical Core (`core/AGENTS.md`)
+### 1. Canonical Core (`core/`)
 
-The **single source of truth**. Every rule in the repository is either defined here or explicitly
-references this file. `core/AGENTS.md` imports (via Markdown links) the other modules in `core/` so
-that a single load of `AGENTS.md` surfaces the full rule set.
+Every rule is defined in exactly one `core/*.md` module. `core/AGENTS.md` indexes them (its
+`@import` lines are index markers checked by the validator, not a tool directive).
 
-```
-core/AGENTS.md  -->  imports every other core/* file
-```
-
-When a vendor adapter or framework pack wants to override a rule, it must do so with an explicit
-precedence statement so that the override is discoverable.
+`core/ESSENTIALS.md` is the one deliberate summary: a short digest of the rules every agent
+must follow on every task, each linking to its defining module. It exists because agents load
+a limited amount of always-on context; see decision D2 in `decision-log.md`.
 
 ### 2. Framework Packs (`framework-packs/*.md`)
 
-Each file is a **focused, optional** rule set scoped to one technology. A framework pack never
-redefines a core rule; it only adds stack-specific conventions (e.g. "use `tsc --noEmit` for type
-checking", "lint with ESLint flat config") and links back to the relevant core principle.
-
-Framework packs are intentionally additive and self-contained so that a project can adopt just the
-ones it needs.
+Optional, stack-specific rules (verify commands, framework pitfalls). A pack never redefines a
+core rule; it adds conventions and cites the core module it builds on. Every pack starts with a
+`> Extends core/AGENTS.md` line, enforced by the validator.
 
 ### 3. Adapters (`adapters/*.md`)
 
-Each adapter is a **minimal** file scoped to one AI coding tool. Its responsibilities are:
-
-1. Identify itself (e.g. "This file configures Cursor").
-2. Point to `core/AGENTS.md` as the canonical source.
-3. Provide only the directives that the tool actually understands (file format, comment syntax,
-   include/exclude patterns).
-
-Adapters **must not** duplicate core rules. If an adapter needs to relax or tighten a rule for
-tool-specific reasons, it does so with an explicit note referencing the core rule by path.
+Documentation of how each AI tool discovers instruction files and how the kit is wired into
+it. Adapters add no rules and are not a precedence layer.
 
 ### 4. Operational Assets
 
 | Asset | Purpose |
 |-------|---------|
-| `prompts/` | Reusable agent prompts (feature dev, bug fix, review, etc.). |
-| `templates/` | Fill-in-the-blank file templates (README, RFC, ADR, etc.). |
-| `checklists/` | Gate-gate checklists (before commit, before PR, before release). |
-| `examples/` | End-to-end worked examples combining multiple layers. |
-| `scripts/` | Automation that supports the kit itself (e.g. link checker, lint). |
+| `prompts/` | Reusable task prompts; those with `skill:` frontmatter are also generated into Claude Code skills by `install-skills.ps1` (decision D3). |
+| `templates/` | Fill-in templates (README, RFC, ADR, PR, log entries, ...). |
+| `checklists/` | Gate checklists (before commit, PR, merge, release; security; a11y). |
+| `examples/` | Worked adoption examples. |
+| `scripts/` | `adopt-kit.ps1` (distribution), `install-skills.ps1` (skills), and `validate-kit.ps1` (consistency). |
+
+## Distribution Model
+
+Agents differ in what they read, and most do not resolve imports or read outside the
+workspace. The common denominator is a plain `AGENTS.md` at the project root, so
+`scripts/adopt-kit.ps1`:
+
+1. **Vendors** the kit into `<project>/.ai-kit/`, so the full modules are inside the
+   workspace for any agent to open on demand.
+2. **Inlines** `ESSENTIALS.md` and the chosen packs into a managed block in
+   `<project>/AGENTS.md`, so the critical rules load without relying on imports.
+3. **Shims** the tools that read a different file (`CLAUDE.md`, `GEMINI.md`,
+   `.github/copilot-instructions.md`, `.aider.conf.yml`) to point at `AGENTS.md`.
+
+The managed block is delimited by `ai-kit:start` / `ai-kit:end` markers. Only that block and
+`.ai-kit/` are ever rewritten, which makes adoption idempotent and updates a reviewable diff.
+
+```
+kit repo                        project
+core/ESSENTIALS.md ──inline──►  AGENTS.md  [managed block | project rules]
+framework-packs/x.md ─inline─┘      ▲
+core/, checklists/, ... ──copy──►  .ai-kit/  (full reference, read on demand)
+                                    │
+             CLAUDE.md, GEMINI.md, copilot-instructions.md, .aider.conf.yml ──► AGENTS.md
+```
 
 ## Resolution Order
 
-When an agent loads instructions for a given repository, precedence (highest last) is:
+Later layers override earlier ones:
 
-1. **Global user profile** — `%USERPROFILE%\.config\kilo\AGENTS.md` (or platform equivalent).
-2. **Repository core** — `core/AGENTS.md` and the modules it imports.
-3. **Framework packs** — active packs selected by the project.
-4. **Adapter** — the vendor-specific file the agent is running under.
+1. **Global user profile**: personal preferences in the agent's user-level file.
+2. **Kit core**: the managed block and `.ai-kit/core/`.
+3. **Framework packs**: stack-specific additions.
+4. **Project instructions**: everything outside the managed block in the project's
+   `AGENTS.md` (and tool-specific additions in the shims).
 
-Later layers may override earlier ones **only** for tool-specific or stack-specific reasons, and
-every override must cite the canonical rule it modifies.
+The **Non-Negotiables** in `core/ESSENTIALS.md` sit above every layer: only an explicit
+instruction from the user in the current conversation relaxes them. Every override must cite
+the rule it changes.
 
 ## Design Principles
 
-1. **Vendor neutral** — no rule is written for a single tool.
-2. **Single responsibility** — one purpose per file.
-3. **No duplication** — rules are defined once and referenced.
-4. **Enterprise quality** — assume a regulated, production context.
-5. **Long-lived** — prefer simple formats that survive tooling churn.
-6. **Portable** — Markdown everywhere; no proprietary formats.
+1. **Vendor neutral**: no rule is written for a single tool.
+2. **Single responsibility**: one purpose per file.
+3. **No duplication**: rules are defined once and referenced (ESSENTIALS is the sole,
+   budgeted summary).
+4. **Enterprise quality**: assume a regulated, production context.
+5. **Long-lived**: plain Markdown and PowerShell; no build step, no runtime dependencies.
+6. **Verifiable**: the validator and CI enforce the structure, not convention alone.
 
 ## Maintenance Model
 
-- Each core module should be owned by one maintainer (see `CONTRIBUTING.md`).
-- Major changes require an entry in `CHANGELOG.md` and an Architecture Decision Record
-  (template in `templates/`).
-- Framework packs are versioned independently and may be adopted on a per-project basis.
+- Major changes require a `CHANGELOG.md` entry and a decision-log entry or ADR
+  (`templates/architecture-decision-record.md`).
+- `scripts/validate-kit.ps1` must pass; CI runs it plus an adoption smoke test.
+- Adopting projects pin a version via `.ai-kit/VERSION` and update by re-running the script.
 
 ## See Also
 
-- `core/AGENTS.md` — canonical rule set.
-- `docs/INTEGRATION.md` — how to wire this kit into a new project.
+- `core/AGENTS.md`: rule index.
+- `docs/USAGE.md`: adoption and updates.

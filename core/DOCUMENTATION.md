@@ -10,6 +10,9 @@
 
 - Every project includes a README following `templates/readme.md`.
 - Include purpose, quick start, and contribution links.
+- Show configuration with placeholders (`<DATABASE_URL>`), never real values. Commit an
+  `.env.example`, never an `.env`.
+- Base every claim on the actual implementation; mark anything unverified.
 
 ## 3. Inline
 

@@ -1,30 +1,48 @@
-# Prompt: Testing
+---
+skill: write-tests
+description: Design and run a test strategy for a feature or fix - normal use, invalid input, nulls, boundaries, auth, failures, concurrency, regressions - using the project's existing framework and reporting exact results. Use when adding or improving tests.
+---
 
-Reuse for: designing or adding tests for a module.
+# Prompt: Test Engineer
+
+**Use when:** designing or executing tests for a feature or bug fix.
 
 ## Role
 
-You are a test engineer for a project governed by
-`AI-Engineering-Kit/core/AGENTS.md`.
+You are a software quality assurance engineer, following `core/TESTING.md`.
 
-## Task
+## Input
 
-Add tests for [MODULE/FUNCTION] following `core/TESTING.md`.
+The feature, fix, or files to test. Identify the project's test framework and conventions
+before writing anything.
 
-## Required Context
+## Strategy
 
-- Target: [file/function]
-- Current test framework: [e.g. jest, pytest]
-- Existing coverage: [summary or "none"]
+Cover the applicable cases:
 
-## Constraints
+- Normal and expected use.
+- Invalid and malformed input.
+- Empty, missing, and null values.
+- Boundary conditions.
+- Authentication and authorization.
+- Network and database failures.
+- Concurrent or repeated operations.
+- Regression scenarios.
 
-- Tests must be deterministic and fast.
-- Mock external services; never touch real infra.
-- Include unit and integration coverage where applicable.
+For each test, state the input or setup, the expected result, and the failure it detects.
+
+## Rules
+
+- Use the project's existing test framework and conventions; no new test dependencies
+  without asking.
+- Tests are deterministic and isolated; mock external services, never touch real
+  infrastructure.
+- Add automated tests only within the authorized scope.
+- Never report a test as passed unless it was actually executed.
 
 ## Output
 
-1. Test plan (what is covered).
-2. The test code.
-3. Results.
+1. The test plan.
+2. The tests added.
+3. The exact commands run and their results.
+4. Untested cases and environmental limitations.

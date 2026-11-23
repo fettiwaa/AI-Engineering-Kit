@@ -1,0 +1,52 @@
+name: validate
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            shell: pwsh
+          - os: windows-latest
+            shell: powershell   # Windows PowerShell 5.1, the lowest supported runtime
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: ${{ matrix.shell }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate kit
+        run: ./scripts/validate-kit.ps1
+
+      - name: Smoke-test adopt-kit
+        run: |
+          $project = Join-Path ([System.IO.Path]::GetTempPath()) 'ai-kit-smoke'
+          if (Test-Path $project) { Remove-Item -Recurse -Force $project }
+          New-Item -ItemType Directory -Path $project | Out-Null
+          Set-Content -Path (Join-Path $project 'AGENTS.md') -Value "# Existing project rules"
+
+          ./scripts/adopt-kit.ps1 -Project $project -Agents all -Packs typescript,react -Skills all -WithMemory
+          # 6>&1 captures Write-Host (information stream) so the output can be checked.
+          $second = ./scripts/adopt-kit.ps1 -Project $project -Agents all -Packs typescript,react -Skills all 6>&1 | Out-String
+          Write-Host $second
+          if ($second -match '(?m)^(create|update) ') { throw 'Second run was not idempotent' }
+
+          $agents = Get-Content (Join-Path $project 'AGENTS.md') -Raw
+          if ($agents -notmatch '# Existing project rules') { throw 'Existing AGENTS.md content was lost' }
+          if (([regex]::Matches($agents, 'ai-kit:start')).Count -ne 1) { throw 'Managed block duplicated on re-run' }
+          foreach ($f in 'CLAUDE.md', 'GEMINI.md', '.aider.conf.yml', '.github/copilot-instructions.md', '.ai-kit/VERSION', '.ai-kit/framework-packs/react.md', 'docs/activity-log.md', '.claude/skills/debug-issue/SKILL.md', '.claude/skills/session-handoff/SKILL.md') {
+            if (-not (Test-Path (Join-Path $project $f))) { throw "Missing $f" }
+          }
+          $skill = Get-Content (Join-Path $project '.claude/skills/session-handoff/SKILL.md') -Raw
+          if ($skill -notmatch '\A---\nname: session-handoff\n' -or $skill -notmatch 'disable-model-invocation: true') { throw 'Generated SKILL.md frontmatter is wrong' }
+          Write-Host 'adopt-kit smoke test passed.'

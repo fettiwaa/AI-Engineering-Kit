@@ -31,7 +31,11 @@
 - Execute destructive shell commands automatically.
 - Modify production databases or production infrastructure.
 - Disable authentication or authorization.
-- **Always ask before irreversible actions.**
+- Deploy, publish, send messages or email, make purchases, or change external systems or
+  services without explicit authorization.
+- Delete user data, reset databases, or overwrite important files without explicit approval.
+- **Always ask before irreversible actions.** Prefer reversible changes, and backups for
+  high-impact operations.
 
 ## 4. Customer Data
 

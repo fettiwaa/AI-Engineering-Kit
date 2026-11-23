@@ -1,29 +1,33 @@
 # Gemini CLI Adapter
 
-> Configures Google Gemini CLI. Canonical rules: see `AI-Engineering-Kit/core/AGENTS.md`.
+> How Google Gemini CLI loads the kit. Canonical rules: `core/AGENTS.md`. This adapter adds
+> no rules.
 
-## 1. Instruction File
+## 1. What Gemini CLI Reads
 
-Gemini CLI reads `.gemini/GEMINI.md` (project) and a global user file.
+- Global: `~/.gemini/GEMINI.md`.
+- Project: `GEMINI.md` files from the working directory up to the project root, plus
+  subdirectories. (Note: the project file sits at the root, not inside `.gemini/`.)
+- `GEMINI.md` can import other Markdown files with `@./relative/path.md` lines.
+- `context.fileName` in `.gemini/settings.json` can rename the context file, e.g.
+  `["AGENTS.md", "GEMINI.md"]`.
 
-## 2. Loading Order
+## 2. Adopt
 
-1. Global user instructions (lowest precedence).
-2. `.gemini/GEMINI.md` (project precedence).
-
-## 3. Directive
-
-To adopt this kit, create `.gemini/GEMINI.md` at your project root:
-
-```markdown
-# Gemini CLI Instructions
-
-Reference the canonical rule set: AI-Engineering-Kit/core/AGENTS.md
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Agents gemini -Packs typescript
 ```
 
-## 4. Notes
+This writes the rules into `AGENTS.md` and a `GEMINI.md` shim containing:
 
-- This adapter is minimal; do not duplicate core rules.
-- Gemini CLI respects `@` includes in Markdown; use them to pull in framework packs.
+```markdown
+@./AGENTS.md
+```
 
-See `core/GIT.md` and `core/SECURITY.md`.
+Alternatively, skip the shim and set `context.fileName` to include `AGENTS.md`.
+
+## 3. Notes
+
+- Run `/memory show` to see the combined context Gemini loaded.
+
+Reference: <https://geminicli.com/docs/cli/gemini-md/>

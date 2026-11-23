@@ -1,31 +1,30 @@
 # OpenAI Codex Adapter
 
-> Configures OpenAI Codex (via `codex` CLI / GitHub app). Canonical rules: see
-> `AI-Engineering-Kit/core/AGENTS.md`.
+> How OpenAI Codex (CLI, IDE extension, cloud) loads the kit. Canonical rules:
+> `core/AGENTS.md`. This adapter adds no rules.
 
-## 1. Configuration File
+## 1. What Codex Reads
 
-Codex uses `codex.md` or YAML config at `.codex/config.yaml`.
+Codex reads `AGENTS.md` natively and merges every file it finds:
 
-## 2. Loading Order
+1. Global: `~/.codex/AGENTS.md`.
+2. Each directory from the repo root down to the working directory (closer files win).
 
-1. Global config (`~/.codex/config.yaml`).
-2. Project config (`.codex/config.yaml`).
-3. Project `codex.md` (project-level instructions take precedence).
+Codex does not resolve imports, so the rules must be inside `AGENTS.md` itself, which is
+exactly what `adopt-kit.ps1` produces.
 
-## 3. Directive
+## 2. Adopt
 
-To adopt this kit, create `codex.md` at your project root that begins with:
-
-```markdown
-# Codex Instructions
-
-@file ../AI-Engineering-Kit/core/AGENTS.md
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Packs typescript
 ```
 
-## 4. Notes
+No shim is needed.
 
-- This adapter is minimal; do not duplicate core rules.
-- When an override is required for tool-specific behavior, cite the canonical rule.
+## 3. Notes
 
-See `core/SECURITY.md` — Codex must never read `.env` unless explicitly instructed.
+- Codex caps the combined size of project instruction files (32 KiB by default). The adopt
+  script warns when the managed block exceeds 24 KB; select fewer packs if it does.
+- Ask Codex to "summarize your current instructions" to confirm the rules loaded.
+
+Reference: <https://agents.md>

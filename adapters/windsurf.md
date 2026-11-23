@@ -1,33 +1,32 @@
 # Windsurf Adapter
 
-> ConfiguresWindsurf (Cascade). Canonical rules: see
-> `AI-Engineering-Kit/core/AGENTS.md`.
+> How Windsurf (Cascade) loads the kit. Canonical rules: `core/AGENTS.md`. This adapter adds
+> no rules.
 
-## 1. Instruction File
+## 1. What Windsurf Reads
 
-Windsurf reads `.windsurfrc` for config and supports project-level rule files referenced
-in `.windsurfrc` or placed as `AGENTS.md`.
+| Scope | Location |
+|-------|----------|
+| Global | Windsurf global rules (Settings > Cascade > Rules) |
+| Project | `AGENTS.md` anywhere in the workspace (root = always on, subfolder = scoped there) |
+| Project rules | `.windsurf/rules/*.md` with a trigger: always-on, model decision, glob, or manual |
 
-## 2. Loading Order
+`AGENTS.md` feeds the same rules engine as `.windsurf/rules/`. Windsurf does not resolve
+imports between rule files.
 
-1. Global Windsurf preferences (lowest precedence).
-2. Project rule file (highest precedence).
+## 2. Adopt
 
-## 3. Directive
-
-To adopt this kit, add to `.windsurfrc`:
-
-```jsonc
-{
-  "rules": [
-    { "path": "../AI-Engineering-Kit/core/AGENTS.md", "type": "import" }
-  ]
-}
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Packs typescript
 ```
 
-## 4. Notes
+No shim is needed.
 
-- This adapter is minimal; do not duplicate core rules.
-- Overrides must cite the canonical rule path.
+## 3. Notes
 
-See `core/SECURITY.md` and `core/PROMPTING.md`.
+- Windsurf limits how much rule text it applies; keep the managed block lean (select only the
+  packs you need).
+- For a pack that applies to some files only, add a glob-triggered rule in
+  `.windsurf/rules/` that points at `.ai-kit/framework-packs/<pack>.md`.
+
+Reference: <https://docs.windsurf.com/windsurf/cascade/agents-md>

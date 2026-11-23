@@ -36,3 +36,46 @@
 - **Testing:** Validator passes; new file references existing templates/paths.
 - **Remaining TODO:** add per-agent worked examples under `examples/`.
 - **Suggested commit:** `docs: add USAGE.md with per-agent adoption commands`
+
+## 2026-11-23 — V1.3: Working Adoption
+
+- **Summary:** Replaced the non-functional per-agent adoption instructions with
+  `scripts/adopt-kit.ps1` (vendors the kit into `.ai-kit/`, writes a managed `AGENTS.md` block,
+  writes shims for Claude Code, Gemini CLI, Copilot, Aider). Added `core/ESSENTIALS.md`.
+  Rewrote all adapters and framework packs, hardened the validator, added CI.
+- **Reason:** An audit found the documented `@import [..](..)` / `@file` syntax is not supported
+  by any agent and several instruction file names were wrong, so adopting projects never loaded
+  the rules. The validator also failed outside the repo root.
+- **Files changed:** new `core/ESSENTIALS.md`, `scripts/adopt-kit.ps1`,
+  `.github/workflows/validate.yml`, `CLAUDE.md`, `examples/adopting-kit-nextjs-claude.md`;
+  rewritten `adapters/*`, `framework-packs/*`, `scripts/validate-kit.ps1`, `README.md`,
+  `docs/USAGE.md`, `docs/INTEGRATION.md`, `docs/ARCHITECTURE.md`,
+  `docs/PROJECT-DOCUMENTATION.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `AGENTS.md`; edited
+  `core/AGENTS.md`, `core/SECURITY.md`, `core/ENGINEERING_PRINCIPLES.md`, docs memory files.
+- **Breaking changes:** Adoption method changed. Projects set up with the V1.2 instructions
+  should delete their old `codex.md` / `.cursorrules` / `.windsurfrc` / `.aider.md` /
+  `.gemini/GEMINI.md` / `.github/Copilot-instructions.md` and run `adopt-kit.ps1`.
+- **Testing:** `validate-kit.ps1` passes from inside and outside the repo; `adopt-kit.ps1`
+  run twice against a scratch project (second run reports no changes, existing content kept).
+- **Remaining TODO:** see `technical-debt.md` T4–T6.
+- **Suggested commit:** `feat: add adopt-kit script, ESSENTIALS digest, and working adapters`
+
+## 2026-11-23 — V1.4: Prompt Library and Claude Code Skills
+
+- **Summary:** Merged an external Claude prompt library into the kit and made 15 prompts
+  installable as Claude Code skills via `scripts/install-skills.ps1` (and
+  `adopt-kit.ps1 -Skills`). Folded the library's safety and agent-practice rules into core.
+- **Reason:** The kit had prompts agents could not discover or invoke on their own; the
+  library had stronger versions of several prompts plus new ones (investigation, handoff,
+  learning/career) and rules the kit lacked (prompt injection, external actions).
+- **Files changed:** new `scripts/install-skills.ps1`, `prompts/README.md`, 9 new prompts,
+  `templates/project-instructions.md`, `docs/references.md`; rewrote 7 prompts; edited
+  `core/SECURITY.md`, `core/AI_RESTRICTIONS.md`, `core/AI_WORKFLOW.md`,
+  `core/DOCUMENTATION.md`, `core/ESSENTIALS.md`, `core/AGENTS.md`, `scripts/adopt-kit.ps1`,
+  `scripts/validate-kit.ps1`, CI, README, USAGE, Claude Code adapter.
+- **Breaking changes:** None.
+- **Testing:** validator passes (15 skills); installer run twice on a scratch project (second
+  run unchanged); CI smoke test reproduced locally on PowerShell 5.1, including a check that
+  the idempotency assertion detects real changes.
+- **Remaining TODO:** confirm the skills in a live Claude Code session; T5, T6.
+- **Suggested commit:** `feat: add prompt library and Claude Code skills installer`

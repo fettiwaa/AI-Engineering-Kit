@@ -1,29 +1,36 @@
 # Aider Adapter
 
-> Configures Aider. Canonical rules: see `AI-Engineering-Kit/core/AGENTS.md`.
+> How Aider loads the kit. Canonical rules: `core/AGENTS.md`. This adapter adds no rules.
 
-## 1. Instruction File
+## 1. What Aider Reads
 
-Aider reads `.aider.md` (project) by default, specified via `--instructions`.
+Aider has no instruction file it loads by convention. It loads conventions files as read-only
+context through:
 
-## 2. Loading Order
+- `aider --read AGENTS.md` (one session), or `/read AGENTS.md` in chat, or
+- a `read:` entry in `.aider.conf.yml` (every session; the reliable option).
 
-1. Command-line `--instructions` (highest precedence for a given session).
-2. `.aider.md` in the project root.
+`.aider.conf.yml` is looked up in the home directory, the git root, and the working directory.
 
-## 3. Directive
+## 2. Adopt
 
-To adopt this kit, create `.aider.md` at your project root:
-
-```markdown
-# Aider Instructions
-
-The canonical rule set is AI-Engineering-Kit/core/AGENTS.md — reference it, do not duplicate.
+```powershell
+& "$KIT/scripts/adopt-kit.ps1" -Project . -Agents aider -Packs typescript
 ```
 
-## 4. Notes
+This writes the rules into `AGENTS.md` and adds to `.aider.conf.yml`:
 
-- Aider in-editor instructions are passed via `/aidir.conf` or the instructions file.
-- Keep this file focused on tool-specific concerns only.
+```yaml
+read:
+  - AGENTS.md
+```
 
-See `core/PROMPTING.md`.
+If `.aider.conf.yml` already has a `read:` key, the script leaves it alone and asks you to add
+`AGENTS.md` to that list manually.
+
+## 3. Notes
+
+- Files loaded with `read` are cached when prompt caching is on, so a large `AGENTS.md` costs
+  little after the first request.
+
+Reference: <https://aider.chat/docs/usage/conventions.html>

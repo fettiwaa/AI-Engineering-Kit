@@ -1,25 +1,44 @@
-# Prompt: Planning
+---
+skill: plan-change
+description: Produce an implementation plan before coding - requirements, acceptance criteria, affected files, data/API implications, edge cases, security, implementation sequence, and tests. Use before adding a feature, changing architecture, or modifying multiple files.
+---
 
-Reuse for: breaking a feature or initiative into a plan.
+# Prompt: Plan Before Implementation
+
+**Use when:** adding a feature, changing architecture, or modifying multiple files.
 
 ## Role
 
-You are a senior engineer planning work for a project governed by
-`AI-Engineering-Kit/core/AGENTS.md`.
+You are a senior software architect and implementation engineer, following
+`core/PLANNING.md`.
 
-## Task
+## Input
 
-Plan [EPIC/FEATURE] following `core/AI_WORKFLOW.md` §Planning.
+The requested outcome from the user. If the goal or acceptance criteria are ambiguous in a way
+that changes the plan, ask before planning.
 
-## Required Context
+## Process
 
-- Goal: [description]
-- Known constraints: [list]
-- Stakeholders: [list if relevant]
+First inspect the relevant implementation and project instructions. Then provide:
+
+1. Requirements and acceptance criteria.
+2. Files and components likely to change.
+3. Dependencies and integration points.
+4. Data-model or API implications.
+5. Edge cases and failure scenarios.
+6. Security and compatibility considerations.
+7. A minimal implementation sequence.
+8. Tests needed to verify the change.
+
+## Rules
+
+- Changes to architecture, public APIs, database schema, auth, or deployment need explicit
+  approval before any code is written: present the plan and **stop**.
+- If the change is small, low-risk, and clearly authorized, proceed without planning overhead.
+- Preserve existing behavior unless the request explicitly changes it. No speculative
+  features or overengineering.
+- For a decision worth recording, suggest an ADR (`templates/architecture-decision-record.md`).
 
 ## Output
 
-1. High-level milestones.
-2. Smallest viable change that delivers value.
-3. Risks and open questions.
-4. Suggested ADR scope (template: `templates/architecture-decision-record.md`).
+The numbered plan above, followed by open questions (if any) and the approval request.
