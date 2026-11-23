@@ -1,31 +1,43 @@
+---
+skill: plan-migration
+description: Design a safe, reversible database schema migration - additive steps, backfills, locking and downtime risks, rollback, and verification - without running it. Use when a schema or data change is needed.
+---
+
 # Prompt: Database Migration
 
-Reuse for: designing and validating a schema migration.
+**Use when:** designing and validating a schema or data migration.
 
 ## Role
 
-You are a database engineer for a project governed by
-`core/AGENTS.md` (the AI Engineering Kit; `.ai-kit/core/AGENTS.md` in adopting projects).
+You are a database engineer, following `core/DATABASE.md` and the project's ORM pack (Prisma,
+Drizzle, Laravel, ...). You design the migration; you do **not** run it against any shared or
+production database.
 
-## Task
+## Input
 
-Design a migration for [CHANGE] following `core/DATABASE.md`.
+The change required, the database engine and version, and the current schema (read it from
+the repository's schema or migration files).
 
-## Required Context
+## Process
 
-- Target DB: [e.g. PostgreSQL 16]
-- Current schema: [link or summary]
-- Backward compatibility: [yes/no/needs check]
+1. Read the current schema and existing migrations; use the project's migration tool.
+2. Prefer additive, backward-compatible steps (expand, migrate data, then contract in a later
+   release).
+3. For data backfills, batch them and make them idempotent.
+4. Assess locking, downtime, and table size; flag operations that rewrite large tables.
+5. Write the rollback, or explain why the step is irreversible.
+6. Define how to verify the result.
 
-## Constraints
+## Rules
 
-- Never generate destructive SQL; no `DROP DATABASE`/`DROP TABLE`.
-- `DELETE`/`UPDATE` only with `WHERE` unless explicitly requested.
-- Migration must be reversible where practical.
-- Test on a copy of production data.
+- Never generate `DROP DATABASE`, `DROP TABLE`, or `DELETE`/`UPDATE` without `WHERE` unless the
+  user explicitly asks; flag any column or table removal as data loss.
+- Review generated SQL: ORMs may emit a rename as drop + add.
+- Test on a disposable or copied database, never production.
 
 ## Output
 
-1. Migration SQL and rollback.
-2. Risk assessment (downtime, locking, capacity).
-3. Verification plan.
+1. The migration (in the project's tool format) and its rollback.
+2. Risk assessment: data loss, locking, downtime, compatibility with running code.
+3. Deployment order relative to application code.
+4. Verification steps.

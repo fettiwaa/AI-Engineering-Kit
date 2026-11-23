@@ -1,6 +1,6 @@
 ---
 skill: debug-issue
-description: Evidence-driven debugging - reproduce, trace the execution path, rank root-cause hypotheses by evidence, apply the smallest reliable fix, and run regression checks. Use when a feature is broken, an error appears, or behavior differs from expectations.
+description: Evidence-driven debugging - reproduce, trace the execution path, rank root-cause hypotheses by evidence, apply the smallest reliable fix, and run regression checks. Use when a feature is broken, an error appears, behavior differs from expectations, or a known bug needs fixing.
 ---
 
 # Prompt: Debugging Investigator

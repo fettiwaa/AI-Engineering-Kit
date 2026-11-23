@@ -84,7 +84,7 @@ Point an agent at a vendored asset when you start a task:
 
 ### Claude Code skills
 
-Fifteen prompts install as skills (see `prompts/README.md`):
+Most prompts install as skills (see `prompts/README.md`):
 
 ```powershell
 & "$KIT/scripts/install-skills.ps1" -List                       # what is available

@@ -30,15 +30,13 @@
 - **Suggested fix:** Re-verify each adapter against its linked reference every release; add a
   "verified on" date if drift becomes a problem.
 
-### T6 — Some prompts and the checklists are still thin
+### T6 — Checklists are still thin
 
 - **Priority:** Low
 - **Introduced:** 2026-08-03 (V1.0)
-- **Details:** V1.4 rewrote most prompts, but `bug-fixing`, `feature-development`,
-  `architecture-review`, `database-migration`, and `performance-optimization` keep the older
-  fill-in style, and `checklists/` are short generic lists.
-- **Suggested fix:** Give those five prompts the V1.4 layout (Role, Input, Process, Rules,
-  Output), consider making them skills, and give each checklist concrete, checkable items.
+- **Details:** All prompts now use the V1.4 layout, but `checklists/` are short generic lists.
+- **Suggested fix:** Give each checklist concrete, checkable items (a command and its expected
+  result where possible).
 
 ### T7 — Skills not yet exercised in a live session
 

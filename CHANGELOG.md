@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Four more skills: `/implement-feature`, `/review-architecture`, `/plan-migration`,
+  `/optimize-performance`. Their prompts were rewritten in the Role / Input / Process / Rules /
+  Output layout.
+
+### Removed
+
+- `prompts/bug-fixing.md`, merged into `prompts/debugging.md` (`/debug-issue`) to avoid two
+  near-identical skills competing for the same requests.
+
 ## [1.4.0] - 2026-11-23
 
 ### Added

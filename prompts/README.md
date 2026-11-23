@@ -15,17 +15,16 @@ Select only the prompt a task needs; do not paste every prompt into every conver
 |--------|-------|----------|
 | [codebase-investigator.md](codebase-investigator.md) | `/investigate-codebase` | Opening an unfamiliar repo or starting a big task |
 | [planning.md](planning.md) | `/plan-change` | Adding a feature or changing several files |
-| [feature-development.md](feature-development.md) | | Implementing a feature end to end |
-| [debugging.md](debugging.md) | `/debug-issue` | Something is broken or behaves unexpectedly |
-| [bug-fixing.md](bug-fixing.md) | | Fixing a defect with known reproduction steps |
+| [feature-development.md](feature-development.md) | `/implement-feature` | Implementing a planned or clearly scoped feature |
+| [debugging.md](debugging.md) | `/debug-issue` | Something is broken, behaves unexpectedly, or a known bug needs fixing |
 | [code-review.md](code-review.md) | `/review-code` | Reviewing a diff or PR before committing |
 | [refactoring.md](refactoring.md) | `/refactor-code` | Working code that is hard to maintain |
 | [testing.md](testing.md) | `/write-tests` | Designing or adding tests |
 | [security-audit.md](security-audit.md) | `/security-audit` | Defensive review of your own application |
 | [architecture-decision.md](architecture-decision.md) | `/architecture-decision` | Choosing between technologies or approaches |
-| [architecture-review.md](architecture-review.md) | | Reviewing an existing design proposal |
-| [database-migration.md](database-migration.md) | | Designing a schema migration |
-| [performance-optimization.md](performance-optimization.md) | | Finding and fixing a bottleneck |
+| [architecture-review.md](architecture-review.md) | `/review-architecture` | Reviewing a design proposal or existing structure |
+| [database-migration.md](database-migration.md) | `/plan-migration` | Designing a schema or data migration |
+| [performance-optimization.md](performance-optimization.md) | `/optimize-performance` | Something is slow or resource-heavy |
 | [documentation.md](documentation.md) | `/write-docs` | Documenting a project for handoff or portfolio |
 
 ## Agent Productivity
